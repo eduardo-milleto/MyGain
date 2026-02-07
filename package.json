@@ -1,0 +1,15 @@
+{
+  "name": "mygain",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "install:frontend": "npm install --prefix frontend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build": "npm run install:frontend && npm run build:frontend",
+    "start": "npx serve -s frontend/dist -l $PORT",
+    "dev": "npm run dev --prefix frontend"
+  },
+  "devDependencies": {
+    "serve": "14.2.4"
+  }
+}
