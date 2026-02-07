@@ -13,6 +13,7 @@ import { CRMPage } from './components/CRMPage';
 import { UsersPage } from './components/UsersPage';
 import { EmailPage } from './components/EmailPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { supabaseConfigError, supabaseConfigured } from './lib/supabaseClient';
 
 type Page = 'login' | 'dashboard' | 'agents' | 'courses' | 'video' | 'agent-config' | 'gpt-traders' | 'erp' | 'crm' | 'users' | 'financial' | 'email';
 
@@ -25,6 +26,10 @@ function AppContent() {
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [currentVideo, setCurrentVideo] = useState({ id: '1', courseName: '' });
   const [authError, setAuthError] = useState<string | null>(null);
+  const [apiStatus, setApiStatus] = useState<'unknown' | 'online' | 'offline'>('unknown');
+
+  const apiUrl = import.meta.env.VITE_API_URL as string | undefined;
+  const apiConfigured = Boolean(apiUrl);
 
   useEffect(() => {
     if (loading) return;
@@ -35,6 +40,30 @@ function AppContent() {
       setCurrentPage('login');
     }
   }, [user, loading, currentPage]);
+
+  useEffect(() => {
+    if (!apiConfigured) {
+      setApiStatus('offline');
+      return;
+    }
+
+    const controller = new AbortController();
+    const checkHealth = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/health`, { signal: controller.signal });
+        setApiStatus(response.ok ? 'online' : 'offline');
+      } catch {
+        setApiStatus('offline');
+      }
+    };
+
+    checkHealth();
+    const interval = window.setInterval(checkHealth, 30_000);
+    return () => {
+      controller.abort();
+      window.clearInterval(interval);
+    };
+  }, [apiConfigured, apiUrl]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -297,6 +326,30 @@ function AppContent() {
             onSubmit={handleSubmit}
             className="space-y-5"
           >
+            {!supabaseConfigured && (
+              <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-100">
+                {supabaseConfigError ?? 'Supabase is not configured.'}
+              </div>
+            )}
+            {!apiConfigured && (
+              <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-100">
+                Missing VITE_API_URL. Backend checks are disabled.
+              </div>
+            )}
+            {apiConfigured && (
+              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70 flex items-center justify-between">
+                <span>Backend status</span>
+                <span className={
+                  apiStatus === 'online'
+                    ? 'text-green-300'
+                    : apiStatus === 'offline'
+                      ? 'text-red-300'
+                      : 'text-white/50'
+                }>
+                  {apiStatus === 'online' ? 'Online' : apiStatus === 'offline' ? 'Offline' : 'Checking...'}
+                </span>
+              </div>
+            )}
             {authError && (
               <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
                 {authError}

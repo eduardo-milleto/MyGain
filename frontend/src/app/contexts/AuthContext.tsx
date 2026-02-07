@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabaseClient';
+import { getSupabaseClient } from '../lib/supabaseClient';
 
 export type UserRole = 'admin' | 'sales' | 'hr' | 'finance' | 'logistics' | 'infrastructure';
 export type ClientType = 'full' | 'courses_only';
@@ -90,6 +90,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let isMounted = true;
 
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data, error }) => {
       if (!isMounted) return;
       if (error) {
@@ -111,6 +118,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      throw new Error('Supabase is not configured');
+    }
+
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       throw error;
@@ -118,6 +130,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
+    const supabase = getSupabaseClient();
+    if (!supabase) {
+      return;
+    }
+
     const { error } = await supabase.auth.signOut();
     if (error) {
       throw error;

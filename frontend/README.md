@@ -17,6 +17,7 @@ Enterprise-grade frontend for the MyGain platform. This workspace is organized f
 3. Add Supabase credentials:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
+   - `VITE_API_URL` (backend base URL)
 
 4. Run the dev server:
    ```bash
