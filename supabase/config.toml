@@ -1,0 +1,4 @@
+# Supabase configuration
+# This file is used by the Supabase CLI and GitHub integration.
+
+project_id = "mygain"
