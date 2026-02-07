@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.45.4",
@@ -65,6 +66,7 @@
     "vaul": "1.1.2"
   },
   "devDependencies": {
+    "@playwright/test": "1.48.2",
     "@tailwindcss/vite": "4.1.12",
     "@vitejs/plugin-react": "4.7.0",
     "tailwindcss": "4.1.12",

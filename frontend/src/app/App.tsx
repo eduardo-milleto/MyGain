@@ -365,12 +365,12 @@ function AppContent() {
 
             {/* Forgot Password */}
             <div className="flex justify-end">
-              <button
-                type="button"
-                className="text-sm text-white/60 hover:text-white transition-colors"
-              >
-                Esqueceu a senha?
-              </button>
+                <button
+                  type="button"
+                  className="text-sm text-white/60 hover:text-white transition-colors"
+                >
+                  Forgot password?
+                </button>
             </div>
 
             {/* Submit Button */}
@@ -380,7 +380,7 @@ function AppContent() {
               whileTap={{ scale: 0.98 }}
               className="w-full bg-white text-black rounded-2xl px-6 py-4 font-semibold flex items-center justify-center gap-2 hover:bg-white/90 transition-all duration-300 shadow-lg shadow-white/20 group"
             >
-              Entrar
+              Sign in
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </motion.form>
@@ -398,7 +398,7 @@ function AppContent() {
           <span className="text-white font-medium" style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}>
             MyGain
           </span>
-          . Todos os direitos reservados.
+          . All rights reserved.
         </motion.p>
       </motion.div>
     </div>
