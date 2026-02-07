@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { ArrowLeft, Database, Users, DollarSign, Mail, Lock } from 'lucide-react';
-import logo from 'figma:asset/a83e4a1be0d90a5cb15fa1925678efb6a6ae0cf8.png';
+import logo from '@/assets/a83e4a1be0d90a5cb15fa1925678efb6a6ae0cf8.png';
 import { ChatWidget } from './ChatWidget';
 import { useAuth } from '../contexts/AuthContext';
 
