@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabaseClient';
 
 export type UserRole = 'admin' | 'sales' | 'hr' | 'finance' | 'logistics' | 'infrastructure';
 export type ClientType = 'full' | 'courses_only';
@@ -15,9 +17,10 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => void;
-  logout: () => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
   hasPermission: (module: string) => boolean;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -40,104 +43,85 @@ const clientPermissions: Record<ClientType, string[]> = {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email: string, password: string) => {
-    // Simulated login - implement real auth later
-    
-    // Admin
+  const mapSupabaseUser = (authUser: SupabaseUser | null): User | null => {
+    if (!authUser || !authUser.email) return null;
+
+    const email = authUser.email.toLowerCase();
+    const nameFromMeta = typeof authUser.user_metadata?.full_name === 'string'
+      ? authUser.user_metadata.full_name
+      : authUser.email.split('@')[0];
+
     if (email === 'admin@mygain.com') {
-      setUser({
-        id: '1',
-        name: 'Admin MyGain',
-        email: 'admin@mygain.com',
-        type: 'employee',
-        role: 'admin'
-      });
+      return { id: authUser.id, name: 'Admin MyGain', email, type: 'employee', role: 'admin' };
     }
-    // Finance
-    else if (email === 'finance@mygain.com') {
-      setUser({
-        id: '2',
-        name: 'Maria Finance',
-        email: 'finance@mygain.com',
-        type: 'employee',
-        role: 'finance'
-      });
+    if (email === 'finance@mygain.com') {
+      return { id: authUser.id, name: 'Maria Finance', email, type: 'employee', role: 'finance' };
     }
-    // Sales
-    else if (email === 'sales@mygain.com') {
-      setUser({
-        id: '3',
-        name: 'Carlos Sales',
-        email: 'sales@mygain.com',
-        type: 'employee',
-        role: 'sales'
-      });
+    if (email === 'sales@mygain.com') {
+      return { id: authUser.id, name: 'Carlos Sales', email, type: 'employee', role: 'sales' };
     }
-    // HR
-    else if (email === 'hr@mygain.com') {
-      setUser({
-        id: '6',
-        name: 'Ana HR',
-        email: 'hr@mygain.com',
-        type: 'employee',
-        role: 'hr'
-      });
+    if (email === 'hr@mygain.com') {
+      return { id: authUser.id, name: 'Ana HR', email, type: 'employee', role: 'hr' };
     }
-    // Logistics
-    else if (email === 'logistics@mygain.com') {
-      setUser({
-        id: '7',
-        name: 'Pedro Logistics',
-        email: 'logistics@mygain.com',
-        type: 'employee',
-        role: 'logistics'
-      });
+    if (email === 'logistics@mygain.com') {
+      return { id: authUser.id, name: 'Pedro Logistics', email, type: 'employee', role: 'logistics' };
     }
-    // Infrastructure
-    else if (email === 'infrastructure@mygain.com') {
-      setUser({
-        id: '8',
-        name: 'Roberto Infrastructure',
-        email: 'infrastructure@mygain.com',
-        type: 'employee',
-        role: 'infrastructure'
-      });
+    if (email === 'infrastructure@mygain.com') {
+      return { id: authUser.id, name: 'Roberto Infrastructure', email, type: 'employee', role: 'infrastructure' };
     }
-    // Full client
-    else if (email === 'client@company.com') {
-      setUser({
-        id: '4',
-        name: 'Full Client',
-        email: 'client@company.com',
-        type: 'client',
-        clientType: 'full'
-      });
+    if (email === 'client@company.com') {
+      return { id: authUser.id, name: 'Full Client', email, type: 'client', clientType: 'full' };
     }
-    // Courses-only client
-    else if (email === 'client2@company.com') {
-      setUser({
-        id: '5',
-        name: 'Courses Client',
-        email: 'client2@company.com',
-        type: 'client',
-        clientType: 'courses_only'
-      });
+    if (email === 'client2@company.com') {
+      return { id: authUser.id, name: 'Courses Client', email, type: 'client', clientType: 'courses_only' };
     }
-    // Default: Admin
-    else {
-      setUser({
-        id: '1',
-        name: 'Admin MyGain',
-        email: email,
-        type: 'employee',
-        role: 'admin'
-      });
+
+    return {
+      id: authUser.id,
+      name: nameFromMeta,
+      email,
+      type: 'employee',
+      role: 'admin'
+    };
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+
+    supabase.auth.getSession().then(({ data, error }) => {
+      if (!isMounted) return;
+      if (error) {
+        console.error('Supabase session error:', error.message);
+      }
+      setUser(mapSupabaseUser(data.session?.user ?? null));
+      setLoading(false);
+    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return;
+      setUser(mapSupabaseUser(session?.user ?? null));
+    });
+
+    return () => {
+      isMounted = false;
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      throw error;
     }
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw error;
+    }
   };
 
   const hasPermission = (module: string): boolean => {
@@ -162,11 +146,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     */
   };
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, hasPermission }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({ user, login, logout, hasPermission, loading }),
+    [user, loading]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

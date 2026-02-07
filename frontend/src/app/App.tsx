@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import logo from '@/assets/a83e4a1be0d90a5cb15fa1925678efb6a6ae0cf8.png';
@@ -17,23 +17,39 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 type Page = 'login' | 'dashboard' | 'agents' | 'courses' | 'video' | 'agent-config' | 'gpt-traders' | 'erp' | 'crm' | 'users' | 'financial' | 'email';
 
 function AppContent() {
-  const { user, login, logout } = useAuth();
+  const { user, login, logout, loading } = useAuth();
   const [currentPage, setCurrentPage] = useState<Page>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [currentVideo, setCurrentVideo] = useState({ id: '1', courseName: '' });
+  const [authError, setAuthError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (loading) return;
+    if (user && currentPage === 'login') {
+      setCurrentPage('dashboard');
+    }
+    if (!user && currentPage !== 'login') {
+      setCurrentPage('login');
+    }
+  }, [user, loading, currentPage]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login submitted:', { email, password });
-    login(email, password);
-    setCurrentPage('dashboard');
+    setAuthError(null);
+    try {
+      await login(email, password);
+      setCurrentPage('dashboard');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to sign in';
+      setAuthError(message);
+    }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setCurrentPage('login');
     setEmail('');
     setPassword('');
@@ -151,6 +167,14 @@ function AppContent() {
             Back
           </button>
         </div>
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <p className="text-white/70 text-sm">Loading session...</p>
       </div>
     );
   }
@@ -273,6 +297,11 @@ function AppContent() {
             onSubmit={handleSubmit}
             className="space-y-5"
           >
+            {authError && (
+              <div className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                {authError}
+              </div>
+            )}
             {/* Email Field */}
             <div className="relative">
               <motion.div

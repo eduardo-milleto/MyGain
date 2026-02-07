@@ -9,12 +9,21 @@ Enterprise-grade frontend for the MyGain platform. This workspace is organized f
    npm install
    ```
 
-2. Run the dev server:
+2. Configure environment:
+   ```bash
+   cp .env.example .env.local
+   ```
+
+3. Add Supabase credentials:
+   - `VITE_SUPABASE_URL`
+   - `VITE_SUPABASE_ANON_KEY`
+
+4. Run the dev server:
    ```bash
    npm run dev
    ```
 
-3. Build for production:
+5. Build for production:
    ```bash
    npm run build
    ```
