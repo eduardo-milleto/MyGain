@@ -14,6 +14,7 @@ import { UsersPage } from './components/UsersPage';
 import { EmailPage } from './components/EmailPage';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { supabaseConfigError, supabaseConfigured } from './lib/supabaseClient';
+import { Analytics } from '@vercel/analytics/react';
 
 type Page = 'login' | 'dashboard' | 'agents' | 'courses' | 'video' | 'agent-config' | 'gpt-traders' | 'erp' | 'crm' | 'users' | 'financial' | 'email';
 
@@ -462,6 +463,7 @@ export default function App() {
   return (
     <AuthProvider>
       <AppContent />
+      <Analytics />
     </AuthProvider>
   );
 }
