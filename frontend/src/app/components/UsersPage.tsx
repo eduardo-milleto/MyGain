@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Users, Search, Plus, X, User, Mail, Lock, Briefcase, Calendar, Edit2, Trash2, Eye, EyeOff } from 'lucide-react';
 import { Header } from './Header';
 import { ChatWidget } from './ChatWidget';
+import { getSupabaseClient } from '../lib/supabaseClient';
 
 interface UsersPageProps {
   onBack: () => void;
@@ -17,59 +18,24 @@ interface User {
   createdAt: string;
 }
 
-const roles = ['Admin', 'Vendas', 'Logística', 'Financeiro', 'RH', 'Infraestrutura'];
+const roleOptions = [
+  { label: 'Admin', value: 'admin' },
+  { label: 'Vendas', value: 'vendas' },
+  { label: 'Logística', value: 'logistica' },
+  { label: 'Financeiro', value: 'financeiro' },
+  { label: 'RH', value: 'rh' },
+  { label: 'Infraestrutura', value: 'infraestrutura' }
+];
+
+const roleLabelByValue = roleOptions.reduce((acc, option) => {
+  acc[option.value] = option.label;
+  return acc;
+}, {} as Record<string, string>);
 
 export function UsersPage({ onBack }: UsersPageProps) {
-  const [users, setUsers] = useState<User[]>([
-    {
-      id: '1',
-      name: 'Carlos Silva',
-      email: 'carlos.silva@company.com',
-      role: 'Vendas',
-      status: 'online',
-      createdAt: '14/01/2024'
-    },
-    {
-      id: '2',
-      name: 'Ana Costa',
-      email: 'ana.costa@company.com',
-      role: 'RH',
-      status: 'online',
-      createdAt: '19/01/2024'
-    },
-    {
-      id: '3',
-      name: 'Roberto Mendes',
-      email: 'roberto.mendes@company.com',
-      role: 'Infraestrutura',
-      status: 'offline',
-      createdAt: '31/01/2024'
-    },
-    {
-      id: '4',
-      name: 'Juliana Santos',
-      email: 'juliana.santos@company.com',
-      role: 'Vendas',
-      status: 'online',
-      createdAt: '04/02/2024'
-    },
-    {
-      id: '5',
-      name: 'Pedro Oliveira',
-      email: 'pedro.oliveira@company.com',
-      role: 'Logística',
-      status: 'online',
-      createdAt: '09/02/2024'
-    },
-    {
-      id: '6',
-      name: 'Mariana Lima',
-      email: 'mariana.lima@company.com',
-      role: 'Financeiro',
-      status: 'offline',
-      createdAt: '11/02/2024'
-    }
-  ]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [usersError, setUsersError] = useState<string | null>(null);
 
   const [showUserModal, setShowUserModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,30 +50,108 @@ export function UsersPage({ onBack }: UsersPageProps) {
     password: ''
   });
 
-  const handleCreateUser = () => {
-    if (newUser.name.trim() && newUser.email.trim() && newUser.role && newUser.password.length >= 8) {
-      if (editingUser) {
-        // Edit mode
-        setUsers(users.map(u => 
-          u.id === editingUser.id 
-            ? { ...u, name: newUser.name, email: newUser.email, role: newUser.role }
-            : u
-        ));
-      } else {
-        // Create mode
-        const user: User = {
-          id: Date.now().toString(),
-          name: newUser.name,
-          email: newUser.email,
-          role: newUser.role,
-          status: 'offline',
-          createdAt: new Date().toLocaleDateString('en-US')
-        };
-        setUsers([...users, user]);
+  const apiUrl = import.meta.env.VITE_API_URL as string | undefined;
+
+  const getAuthToken = async () => {
+    const supabase = getSupabaseClient();
+    if (!supabase) return null;
+    const { data } = await supabase.auth.getSession();
+    return data.session?.access_token ?? null;
+  };
+
+  const apiFetch = async (path: string, options: RequestInit = {}) => {
+    if (!apiUrl) {
+      throw new Error('API não configurada');
+    }
+
+    const token = await getAuthToken();
+    if (!token) {
+      throw new Error('Sessão inválida');
+    }
+
+    const response = await fetch(`${apiUrl}${path}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        ...(options.headers ?? {})
       }
-      setShowUserModal(false);
-      setNewUser({ name: '', email: '', role: '', password: '' });
-      setEditingUser(null);
+    });
+
+    if (!response.ok) {
+      const payload = await response.json().catch(() => ({}));
+      const message = payload?.error || 'Erro ao comunicar com o backend';
+      throw new Error(message);
+    }
+
+    return response.json();
+  };
+
+  const loadUsers = async () => {
+    try {
+      setLoadingUsers(true);
+      setUsersError(null);
+      const data = await apiFetch('/users');
+      const mapped = (data.users || []).map((user: any) => ({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.roleLabel ?? roleLabelByValue[user.subRole] ?? 'Sem Cargo',
+        status: user.status === 'online' ? 'online' : 'offline',
+        createdAt: user.createdAt
+          ? new Date(user.createdAt).toLocaleDateString('pt-BR')
+          : new Date().toLocaleDateString('pt-BR')
+      }));
+      setUsers(mapped);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Erro ao carregar usuários';
+      setUsersError(message);
+    } finally {
+      setLoadingUsers(false);
+    }
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  const handleCreateUser = async () => {
+    if (newUser.name.trim() && newUser.email.trim() && newUser.role && newUser.password.length >= 8) {
+      try {
+        setUsersError(null);
+        if (editingUser) {
+          const payload = {
+            name: newUser.name,
+            email: newUser.email,
+            password: newUser.password !== '********' ? newUser.password : undefined,
+            subRole: newUser.role
+          };
+          await apiFetch(`/users/${editingUser.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(payload)
+          });
+          await loadUsers();
+        } else {
+          const payload = {
+            name: newUser.name,
+            email: newUser.email,
+            password: newUser.password,
+            subRole: newUser.role
+          };
+          await apiFetch('/users', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+          await loadUsers();
+        }
+
+        setShowUserModal(false);
+        setNewUser({ name: '', email: '', role: '', password: '' });
+        setEditingUser(null);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Erro ao salvar usuário';
+        setUsersError(message);
+      }
     }
   };
 
@@ -116,14 +160,21 @@ export function UsersPage({ onBack }: UsersPageProps) {
     setNewUser({
       name: user.name,
       email: user.email,
-      role: user.role,
+      role: Object.entries(roleLabelByValue).find(([, label]) => label === user.role)?.[0] || '',
       password: '********'
     });
     setShowUserModal(true);
   };
 
-  const handleDeleteUser = (userId: string) => {
-    setUsers(users.filter(u => u.id !== userId));
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      setUsersError(null);
+      await apiFetch(`/users/${userId}`, { method: 'DELETE' });
+      setUsers(users.filter(u => u.id !== userId));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Erro ao excluir usuário';
+      setUsersError(message);
+    }
   };
 
   const filteredUsers = users.filter(user => {
@@ -134,10 +185,12 @@ export function UsersPage({ onBack }: UsersPageProps) {
   });
 
   const onlineUsers = users.filter(u => u.status === 'online').length;
-  const roleStats = roles.reduce((acc, role) => {
-    acc[role] = users.filter(u => u.role === role).length;
-    return acc;
-  }, {} as Record<string, number>);
+  const roleStats = useMemo(() => {
+    return roleOptions.reduce((acc, role) => {
+      acc[role.label] = users.filter(u => u.role === role.label).length;
+      return acc;
+    }, {} as Record<string, number>);
+  }, [users]);
 
   const isCreateDisabled = !newUser.name.trim() || !newUser.email.trim() || !newUser.role || newUser.password.length < 8;
 
@@ -161,6 +214,16 @@ export function UsersPage({ onBack }: UsersPageProps) {
 
       {/* Main Content */}
       <div className="pt-24 px-6 pb-12 max-w-7xl mx-auto">
+        {usersError && (
+          <div className="mb-6 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-100">
+            {usersError}
+          </div>
+        )}
+        {loadingUsers && (
+          <div className="mb-6 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/70">
+            Carregando usuários...
+          </div>
+        )}
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <motion.div
@@ -246,8 +309,8 @@ export function UsersPage({ onBack }: UsersPageProps) {
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all cursor-pointer"
           >
             <option value="Todos os Cargos">Todos os Cargos</option>
-            {roles.map(role => (
-              <option key={role} value={role}>{role}</option>
+            {roleOptions.map((role) => (
+              <option key={role.label} value={role.label}>{role.label}</option>
             ))}
           </select>
         </div>
@@ -270,6 +333,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => handleEditUser(user)}
+                  aria-label="Editar usuário"
                   className="p-2 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-all"
                 >
                   <Edit2 className="w-4 h-4 text-white" />
@@ -278,6 +342,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => handleDeleteUser(user.id)}
+                  aria-label="Excluir usuário"
                   className="p-2 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-all"
                 >
                   <Trash2 className="w-4 h-4 text-white" />
@@ -416,31 +481,31 @@ export function UsersPage({ onBack }: UsersPageProps) {
                       <span>Cargo *</span>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                      {roles.map((role) => (
+                      {roleOptions.map((role) => (
                         <motion.button
-                          key={role}
+                          key={role.value}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          onClick={() => setNewUser({ ...newUser, role })}
+                          onClick={() => setNewUser({ ...newUser, role: role.value })}
                           className={`p-4 rounded-xl border-2 transition-all ${
-                            newUser.role === role
+                            newUser.role === role.value
                               ? 'bg-white/20 border-white shadow-lg shadow-white/20'
                               : 'bg-white/5 border-white/10 hover:border-white/30'
                           }`}
                         >
                           <div className={`w-10 h-10 mx-auto mb-2 rounded-lg flex items-center justify-center ${
-                            newUser.role === role
+                            newUser.role === role.value
                               ? 'bg-white'
                               : 'bg-white/10'
                           }`}>
                             <Briefcase className={`w-5 h-5 ${
-                              newUser.role === role ? 'text-black' : 'text-white/60'
+                              newUser.role === role.value ? 'text-black' : 'text-white/60'
                             }`} />
                           </div>
                           <p className={`text-sm font-medium ${
-                            newUser.role === role ? 'text-white' : 'text-white/70'
+                            newUser.role === role.value ? 'text-white' : 'text-white/70'
                           }`}>
-                            {role}
+                            {role.label}
                           </p>
                         </motion.button>
                       ))}

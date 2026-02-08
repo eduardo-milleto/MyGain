@@ -12,11 +12,15 @@ jobs:
     env:
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
       VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-      VITE_API_URL: ${{ secrets.VITE_API_URL }}
+      VITE_API_URL: http://127.0.0.1:8787
+      SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
       TEST_USER_PASSWORD: ${{ secrets.TEST_USER_PASSWORD }}
+      ERP_ADMIN_EMAIL: ${{ secrets.ERP_ADMIN_EMAIL }}
+      ERP_ADMIN_PASSWORD: ${{ secrets.ERP_ADMIN_PASSWORD }}
       E2E_PORT: 4173
+      BACKEND_PORT: 8787
       CI: true
     steps:
       - name: Checkout
@@ -31,6 +35,15 @@ jobs:
 
       - name: Install dependencies
         run: npm --prefix frontend install
+
+      - name: Install backend dependencies
+        run: npm --prefix backend install
+
+      - name: Start backend
+        run: PORT=${BACKEND_PORT} node backend/src/server.js &
+
+      - name: Wait for backend
+        run: curl -sSf http://127.0.0.1:8787/health
 
       - name: Install Playwright
         run: npx --prefix frontend playwright install --with-deps chromium

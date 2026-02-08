@@ -33,6 +33,25 @@ export async function ensureTestUser(email: string, password: string) {
   return data.user.id;
 }
 
+export async function ensureErpAdminUser(email: string, password: string) {
+  const userId = await ensureTestUser(email, password);
+
+  const { error } = await adminClient
+    .from('cargos')
+    .upsert({
+      supabase_id: userId,
+      role: 'colaborador',
+      sub_role: 'admin'
+    });
+
+  if (error) {
+    await adminClient.auth.admin.deleteUser(userId);
+    throw new Error(`Failed to assign ERP admin role: ${error.message}`);
+  }
+
+  return userId;
+}
+
 export async function cleanupTestUser(email: string) {
   const existing = await findUserByEmail(email);
   if (existing) {
