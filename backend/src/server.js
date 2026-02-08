@@ -20,7 +20,48 @@ const adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   }
 });
 
-app.use(cors({ origin: CORS_ORIGIN }));
+const normalizeOrigin = (origin) => String(origin).trim().replace(/\/$/, '').toLowerCase();
+
+const allowedOrigins = CORS_ORIGIN
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const corsOriginChecker = (requestOrigin, callback) => {
+  // Non-browser requests can proceed (health checks, curl, internal calls).
+  if (!requestOrigin) {
+    callback(null, true);
+    return;
+  }
+
+  if (allowedOrigins.includes('*')) {
+    callback(null, true);
+    return;
+  }
+
+  const normalizedRequestOrigin = normalizeOrigin(requestOrigin);
+  const match = allowedOrigins.some((allowedOrigin) => {
+    const normalizedAllowedOrigin = normalizeOrigin(allowedOrigin);
+    if (normalizedAllowedOrigin === normalizedRequestOrigin) {
+      return true;
+    }
+
+    // Allows host-only values (e.g. my-gain.vercel.app) in CORS_ORIGIN.
+    if (!normalizedAllowedOrigin.startsWith('http://') && !normalizedAllowedOrigin.startsWith('https://')) {
+      try {
+        return new URL(normalizedRequestOrigin).host === normalizedAllowedOrigin;
+      } catch {
+        return false;
+      }
+    }
+
+    return false;
+  });
+
+  callback(null, match);
+};
+
+app.use(cors({ origin: corsOriginChecker }));
 app.use(express.json({ limit: '1mb' }));
 
 const roleLabelBySubRole = {
