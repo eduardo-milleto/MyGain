@@ -50,8 +50,10 @@ test.describe('ERP Users', () => {
 
     await expect(page.getByText(erpUserEmail)).toBeVisible();
 
-    const userCard = page.locator('div', { hasText: erpUserEmail });
-    await userCard.getByRole('button', { name: 'Excluir usuário' }).click();
+    const userCard = page
+      .locator('div.bg-gradient-to-br.from-gray-900.to-black', { hasText: erpUserEmail })
+      .first();
+    await userCard.getByRole('button', { name: 'Excluir usuário' }).first().click();
 
     await expect(page.getByText(erpUserEmail)).toHaveCount(0);
   });
