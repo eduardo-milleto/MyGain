@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import logo from '@/assets/a83e4a1be0d90a5cb15fa1925678efb6a6ae0cf8.png';
 import { Dashboard } from './components/Dashboard';
 import { AgentsPage } from './components/AgentsPage';
@@ -462,6 +463,7 @@ export default function App() {
   return (
     <AuthProvider>
       <AppContent />
+      <SpeedInsights />
     </AuthProvider>
   );
 }
