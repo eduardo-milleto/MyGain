@@ -21,6 +21,13 @@ const adminClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 });
 
 const normalizeOrigin = (origin) => String(origin).trim().replace(/\/$/, '').toLowerCase();
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const hasWildcard = (value) => value.includes('*');
+
+const wildcardToRegex = (pattern) => {
+  const escaped = escapeRegex(pattern).replace(/\\\*/g, '.*');
+  return new RegExp(`^${escaped}$`, 'i');
+};
 
 const allowedOrigins = CORS_ORIGIN
   .split(',')
@@ -40,19 +47,32 @@ const corsOriginChecker = (requestOrigin, callback) => {
   }
 
   const normalizedRequestOrigin = normalizeOrigin(requestOrigin);
+  let requestHost = '';
+  try {
+    requestHost = new URL(normalizedRequestOrigin).host;
+  } catch {
+    requestHost = '';
+  }
+
   const match = allowedOrigins.some((allowedOrigin) => {
     const normalizedAllowedOrigin = normalizeOrigin(allowedOrigin);
     if (normalizedAllowedOrigin === normalizedRequestOrigin) {
       return true;
     }
 
+    if (hasWildcard(normalizedAllowedOrigin)) {
+      // Full-origin wildcard patterns (e.g. https://*.vercel.app)
+      if (normalizedAllowedOrigin.startsWith('http://') || normalizedAllowedOrigin.startsWith('https://')) {
+        return wildcardToRegex(normalizedAllowedOrigin).test(normalizedRequestOrigin);
+      }
+      // Host-only wildcard patterns (e.g. *.vercel.app)
+      if (!requestHost) return false;
+      return wildcardToRegex(normalizedAllowedOrigin).test(requestHost);
+    }
+
     // Allows host-only values (e.g. my-gain.vercel.app) in CORS_ORIGIN.
     if (!normalizedAllowedOrigin.startsWith('http://') && !normalizedAllowedOrigin.startsWith('https://')) {
-      try {
-        return new URL(normalizedRequestOrigin).host === normalizedAllowedOrigin;
-      } catch {
-        return false;
-      }
+      return requestHost === normalizedAllowedOrigin;
     }
 
     return false;
