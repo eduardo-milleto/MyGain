@@ -135,7 +135,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
               </motion.button>
               <div>
                 <h1 className="text-2xl font-semibold text-white">{funnel.name}</h1>
-                <p className="text-white/60 text-sm">Sales funnel view</p>
+                <p className="text-white/60 text-sm">Visão do funil de vendas</p>
               </div>
             </div>
 
@@ -146,7 +146,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search deals..."
+                  placeholder="Buscar negócios..."
                   className="w-64 bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all"
                   style={{
                     textShadow: searchTerm ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -165,7 +165,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                 className="px-6 py-2.5 rounded-xl bg-white hover:bg-white/90 text-black font-medium transition-all flex items-center gap-2 shadow-lg shadow-white/20"
               >
                 <Plus className="w-4 h-4" />
-                Create Deal
+                Criar Negócio
               </motion.button>
             </div>
           </div>
@@ -182,7 +182,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
           >
             <p className="text-white/60 text-sm mb-1">VALOR TOTAL</p>
             <p className="text-3xl font-semibold text-white">
-              ${getTotalValue().toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              R$ {getTotalValue().toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </p>
           </motion.div>
 
@@ -192,7 +192,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
             transition={{ delay: 0.1 }}
             className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 p-6"
           >
-            <p className="text-white/60 text-sm mb-1">TOTAL DEALS</p>
+            <p className="text-white/60 text-sm mb-1">TOTAL DE NEGÓCIOS</p>
             <p className="text-3xl font-semibold text-white">{deals.length}</p>
           </motion.div>
         </div>
@@ -229,15 +229,15 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                   <div>
                     <p className="text-white/60 text-xs">Valor Total</p>
                     <p className="text-xl font-semibold text-white">
-                      ${stageValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      R$ {stageValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                     </p>
                   </div>
                   <div>
-                    <p className="text-white/60 text-xs">Deals</p>
+                    <p className="text-white/60 text-xs">Negócios</p>
                     <p className="text-white font-medium">{stageDeals.length}</p>
                   </div>
                   <div>
-                    <p className="text-white/60 text-xs">Conversion Rate</p>
+                    <p className="text-white/60 text-xs">Taxa de Conversão</p>
                     <p className={`font-medium ${
                       stageGoals[stage.id]
                         ? conversionRate >= stageGoals[stage.id]
@@ -265,7 +265,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                   className="w-full mb-4 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-white text-sm font-medium transition-all flex items-center justify-center gap-2"
                 >
                   <Target className="w-4 h-4" />
-                  Set Target
+                  Setar Meta
                 </motion.button>
 
                 {/* Search */}
@@ -273,7 +273,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                   <input
                     type="text"
-                    placeholder="Search here..."
+                    placeholder="Buscar aqui..."
                     className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-white/20 transition-all"
                   />
                 </div>
@@ -282,7 +282,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                 <div className="space-y-3 min-h-[300px]">
                   {stageDeals.length === 0 ? (
                     <div className="flex items-center justify-center h-32">
-                      <p className="text-white/40 text-sm">No deals in this stage</p>
+                      <p className="text-white/40 text-sm">Nenhum negócio nesta etapa</p>
                     </div>
                   ) : (
                     stageDeals.map((deal) => (
@@ -295,7 +295,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                       >
                         <h4 className="text-white font-semibold mb-2">{deal.name}</h4>
                         <p className="text-white text-lg font-bold mb-3">
-                          ${deal.value.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                          R$ {deal.value.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                         </p>
                         <div className="space-y-1 text-sm text-white/70">
                           <p>{deal.company}</p>
@@ -332,8 +332,8 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h2 className="text-2xl font-semibold text-white mb-1">Create New Deal</h2>
-                    <p className="text-white/60 text-sm">Select a lead and add deal details</p>
+                    <h2 className="text-2xl font-semibold text-white mb-1">Criar Novo Negócio</h2>
+                    <p className="text-white/60 text-sm">Selecione um lead e adicione detalhes do negócio</p>
                   </div>
                   <button
                     onClick={() => setShowDealModal(false)}
@@ -346,7 +346,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                 <div className="space-y-6">
                   {/* Select Lead */}
                   <div>
-                    <label className="block text-white text-sm font-medium mb-3">Select Lead</label>
+                    <label className="block text-white text-sm font-medium mb-3">Selecionar Lead</label>
                     <div className="space-y-2">
                       {leads.map((lead) => (
                         <motion.button
@@ -380,7 +380,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
 
                   {/* Deal Name */}
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Deal Name</label>
+                    <label className="block text-white text-sm font-medium mb-2">Nome do Negócio</label>
                     <input
                       type="text"
                       value={newDeal.name}
@@ -396,7 +396,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
 
                   {/* Deal Value */}
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Deal Value</label>
+                    <label className="block text-white text-sm font-medium mb-2">Valor do Negócio</label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-lg">R$</span>
                       <input
@@ -423,11 +423,11 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
 
                   {/* Description */}
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Deal Description</label>
+                    <label className="block text-white text-sm font-medium mb-2">Descrição do Negócio</label>
                     <textarea
                       value={newDeal.description}
                       onChange={(e) => setNewDeal({ ...newDeal, description: e.target.value })}
-                      placeholder="Additional details about the deal..."
+                      placeholder="Detalhes adicionais sobre o negócio..."
                       rows={4}
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all resize-none"
                       style={{
@@ -458,7 +458,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                         : 'bg-white hover:bg-white/90 text-black shadow-lg shadow-white/20'
                     }`}
                   >
-                    Create Deal
+                    Criar Negócio
                   </motion.button>
                 </div>
               </motion.div>
@@ -487,8 +487,8 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h2 className="text-2xl font-semibold text-white mb-1">Set Target</h2>
-                    <p className="text-white/60 text-sm">Define the target conversion rate for this stage</p>
+                    <h2 className="text-2xl font-semibold text-white mb-1">Setar Meta</h2>
+                    <p className="text-white/60 text-sm">Defina a taxa de conversão meta desta etapa</p>
                   </div>
                   <button
                     onClick={() => setShowGoalModal(false)}
@@ -500,7 +500,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Target Conversion (%)</label>
+                    <label className="block text-white text-sm font-medium mb-2">Meta de Conversão (%)</label>
                     <div className="relative">
                       <input
                         type="text"
@@ -532,11 +532,11 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                     <ul className="text-white/70 text-sm space-y-1">
                       <li className="flex items-center gap-2">
                         <span className="text-green-500">●</span> 
-                        Green: Rate above target
+                        Verde: Taxa acima da meta
                       </li>
                       <li className="flex items-center gap-2">
                         <span className="text-red-500">●</span> 
-                        Red: Rate below target
+                        Vermelho: Taxa abaixo da meta
                       </li>
                     </ul>
                   </div>
@@ -562,7 +562,7 @@ export function FunnelView({ funnel, leads, onBack }: FunnelViewProps) {
                         : 'bg-white hover:bg-white/90 text-black shadow-lg shadow-white/20'
                     }`}
                   >
-                    Confirm Target
+                    Confirmar Meta
                   </motion.button>
                 </div>
               </motion.div>

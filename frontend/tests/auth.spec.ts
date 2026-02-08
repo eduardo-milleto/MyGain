@@ -17,9 +17,9 @@ test.describe('Supabase Auth', () => {
     await page.goto('/');
 
     await page.getByPlaceholder('Email').fill(email);
-    await page.getByPlaceholder('Password').fill(password);
-    await page.getByRole('button', { name: /sign in|login|enter|continue/i }).click();
+    await page.getByPlaceholder('Senha').fill(password);
+    await page.getByRole('button', { name: /entrar|login|continuar/i }).click();
 
-    await expect(page.getByText('Choose your workspace')).toBeVisible();
+    await expect(page.getByText('Escolha sua área de trabalho')).toBeVisible();
   });
 });

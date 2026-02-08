@@ -2,8 +2,9 @@ import { createContext, useContext, useEffect, useMemo, useState, ReactNode } fr
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 import { getSupabaseClient } from '../lib/supabaseClient';
 
-export type UserRole = 'admin' | 'sales' | 'hr' | 'finance' | 'logistics' | 'infrastructure';
-export type ClientType = 'full' | 'courses_only';
+export type AccessRole = 'cliente' | 'colaborador';
+export type ClientSubRole = 'cursos' | 'agentes' | 'cursos_agentes';
+export type EmployeeSubRole = 'admin' | 'vendas' | 'financeiro' | 'rh' | 'logistica' | 'infraestrutura';
 export type UserType = 'employee' | 'client';
 
 interface User {
@@ -11,8 +12,8 @@ interface User {
   name: string;
   email: string;
   type: UserType;
-  role?: UserRole; // Employee roles
-  clientType?: ClientType; // Client tiers
+  role?: AccessRole;
+  subRole?: ClientSubRole | EmployeeSubRole;
 }
 
 interface AuthContextType {
@@ -25,20 +26,19 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Permissions by role
-const rolePermissions: Record<UserRole, string[]> = {
+const employeePermissions: Record<EmployeeSubRole, string[]> = {
   admin: ['crm', 'users', 'financial', 'email'],
-  sales: ['crm', 'email'],
-  hr: ['users', 'email'],
-  finance: ['financial', 'email'],
-  logistics: ['email'],
-  infrastructure: ['email']
+  vendas: ['crm'],
+  rh: ['users'],
+  financeiro: ['financial'],
+  logistica: ['email'],
+  infraestrutura: ['email']
 };
 
-// Permissions for clients
-const clientPermissions: Record<ClientType, string[]> = {
-  full: ['courses', 'configure', 'gpt-traders'],
-  courses_only: ['courses']
+const clientPermissions: Record<ClientSubRole, string[]> = {
+  cursos: ['courses'],
+  agentes: ['configure', 'gpt-traders'],
+  cursos_agentes: ['configure', 'gpt-traders', 'courses']
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -52,38 +52,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const nameFromMeta = typeof authUser.user_metadata?.full_name === 'string'
       ? authUser.user_metadata.full_name
       : authUser.email.split('@')[0];
-
-    if (email === 'admin@mygain.com') {
-      return { id: authUser.id, name: 'Admin MyGain', email, type: 'employee', role: 'admin' };
-    }
-    if (email === 'finance@mygain.com') {
-      return { id: authUser.id, name: 'Maria Finance', email, type: 'employee', role: 'finance' };
-    }
-    if (email === 'sales@mygain.com') {
-      return { id: authUser.id, name: 'Carlos Sales', email, type: 'employee', role: 'sales' };
-    }
-    if (email === 'hr@mygain.com') {
-      return { id: authUser.id, name: 'Ana HR', email, type: 'employee', role: 'hr' };
-    }
-    if (email === 'logistics@mygain.com') {
-      return { id: authUser.id, name: 'Pedro Logistics', email, type: 'employee', role: 'logistics' };
-    }
-    if (email === 'infrastructure@mygain.com') {
-      return { id: authUser.id, name: 'Roberto Infrastructure', email, type: 'employee', role: 'infrastructure' };
-    }
-    if (email === 'client@company.com') {
-      return { id: authUser.id, name: 'Full Client', email, type: 'client', clientType: 'full' };
-    }
-    if (email === 'client2@company.com') {
-      return { id: authUser.id, name: 'Courses Client', email, type: 'client', clientType: 'courses_only' };
-    }
-
     return {
       id: authUser.id,
       name: nameFromMeta,
       email,
-      type: 'employee',
-      role: 'admin'
+      type: 'employee'
+    };
+  };
+
+  const loadCargos = async (authUser: SupabaseUser | null): Promise<User | null> => {
+    const baseUser = mapSupabaseUser(authUser);
+    if (!baseUser) return null;
+
+    const supabase = getSupabaseClient();
+    if (!supabase) return baseUser;
+
+    const { data, error } = await supabase
+      .from('cargos')
+      .select('role, sub_role')
+      .eq('supabase_id', baseUser.id)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Erro ao carregar cargos:', error.message);
+      return baseUser;
+    }
+
+    if (!data) {
+      return baseUser;
+    }
+
+    const role = data.role as AccessRole;
+    const subRole = data.sub_role as ClientSubRole | EmployeeSubRole;
+
+    return {
+      ...baseUser,
+      role,
+      subRole,
+      type: role === 'cliente' ? 'client' : 'employee'
     };
   };
 
@@ -97,18 +103,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    supabase.auth.getSession().then(({ data, error }) => {
+    supabase.auth.getSession().then(async ({ data, error }) => {
       if (!isMounted) return;
       if (error) {
         console.error('Supabase session error:', error.message);
       }
-      setUser(mapSupabaseUser(data.session?.user ?? null));
+      const nextUser = await loadCargos(data.session?.user ?? null);
+      setUser(nextUser);
       setLoading(false);
     });
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!isMounted) return;
-      setUser(mapSupabaseUser(session?.user ?? null));
+      const nextUser = await loadCargos(session?.user ?? null);
+      setUser(nextUser);
     });
 
     return () => {
@@ -144,23 +152,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const hasPermission = (module: string): boolean => {
     if (!user) return false;
 
-    // Default to allow visual access (backend will enforce later)
-    return true;
+    if (!user.role || !user.subRole) return false;
 
-    // Permissions logic (temporarily disabled)
-    /*
-    // If employee, check role-based permissions
-    if (user.type === 'employee' && user.role) {
-      return rolePermissions[user.role]?.includes(module) || false;
+    if (module === 'erp') {
+      return user.role === 'colaborador';
     }
 
-    // If client, check tier-based permissions
-    if (user.type === 'client' && user.clientType) {
-      return clientPermissions[user.clientType]?.includes(module) || false;
+    if (module === 'agents') {
+      return user.role === 'cliente';
     }
 
-    return false;
-    */
+    if (user.role === 'colaborador') {
+      return employeePermissions[user.subRole as EmployeeSubRole]?.includes(module) || false;
+    }
+
+    return clientPermissions[user.subRole as ClientSubRole]?.includes(module) || false;
   };
 
   const value = useMemo(

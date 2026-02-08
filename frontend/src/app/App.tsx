@@ -72,7 +72,7 @@ function AppContent() {
       await login(email, password);
       setCurrentPage('dashboard');
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unable to sign in';
+      const message = error instanceof Error ? error.message : 'Não foi possível entrar';
       setAuthError(message);
     }
   };
@@ -187,13 +187,13 @@ function AppContent() {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-semibold text-white mb-4">Finance</h1>
-          <p className="text-white/60 mb-8">Module under development</p>
+          <h1 className="text-4xl font-semibold text-white mb-4">Financeiro</h1>
+          <p className="text-white/60 mb-8">Módulo em desenvolvimento</p>
           <button
             onClick={() => setCurrentPage('erp')}
             className="px-6 py-3 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-all"
           >
-            Back
+            Voltar
           </button>
         </div>
       </div>
@@ -203,7 +203,7 @@ function AppContent() {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <p className="text-white/70 text-sm">Loading session...</p>
+        <p className="text-white/70 text-sm">Carregando sessão...</p>
       </div>
     );
   }
@@ -311,10 +311,10 @@ function AppContent() {
             className="text-center mb-8"
           >
             <h1 className="text-3xl font-semibold text-white mb-2">
-              Welcome
+              Bem-vindo
             </h1>
             <p className="text-white/60 text-sm">
-              Sign in to continue
+              Entre com sua conta para continuar
             </p>
           </motion.div>
 
@@ -328,17 +328,17 @@ function AppContent() {
           >
             {!supabaseConfigured && (
               <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-100">
-                {supabaseConfigError ?? 'Supabase is not configured.'}
+                {supabaseConfigError ?? 'Supabase não configurado.'}
               </div>
             )}
             {!apiConfigured && (
               <div className="rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-sm text-yellow-100">
-                Missing VITE_API_URL. Backend checks are disabled.
+                VITE_API_URL ausente. Verificação do backend desativada.
               </div>
             )}
             {apiConfigured && (
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70 flex items-center justify-between">
-                <span>Backend status</span>
+                <span>Status do backend</span>
                 <span className={
                   apiStatus === 'online'
                     ? 'text-green-300'
@@ -346,7 +346,7 @@ function AppContent() {
                       ? 'text-red-300'
                       : 'text-white/50'
                 }>
-                  {apiStatus === 'online' ? 'Online' : apiStatus === 'offline' ? 'Offline' : 'Checking...'}
+                  {apiStatus === 'online' ? 'Online' : apiStatus === 'offline' ? 'Offline' : 'Verificando...'}
                 </span>
               </div>
             )}
@@ -394,7 +394,7 @@ function AppContent() {
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={() => setFocusedField('password')}
                   onBlur={() => setFocusedField(null)}
-                  placeholder="Password"
+                  placeholder="Senha"
                   required
                   className="w-full bg-white/10 border border-white/20 rounded-2xl px-5 py-4 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all duration-300 pr-12"
                   style={{
@@ -422,7 +422,7 @@ function AppContent() {
                   type="button"
                   className="text-sm text-white/60 hover:text-white transition-colors"
                 >
-                  Forgot password?
+                  Esqueceu a senha?
                 </button>
             </div>
 
@@ -433,7 +433,7 @@ function AppContent() {
               whileTap={{ scale: 0.98 }}
               className="w-full bg-white text-black rounded-2xl px-6 py-4 font-semibold flex items-center justify-center gap-2 hover:bg-white/90 transition-all duration-300 shadow-lg shadow-white/20 group"
             >
-              Sign in
+              Entrar
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
           </motion.form>
@@ -451,7 +451,7 @@ function AppContent() {
           <span className="text-white font-medium" style={{ textShadow: '0 0 20px rgba(255, 255, 255, 0.5)' }}>
             MyGain
           </span>
-          . All rights reserved.
+          . Todos os direitos reservados.
         </motion.p>
       </motion.div>
     </div>

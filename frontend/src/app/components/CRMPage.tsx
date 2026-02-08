@@ -59,8 +59,8 @@ export function CRMPage({ onBack }: CRMPageProps) {
       name: 'John Silva',
       email: 'joao@company.com',
       phone: '+1 415 555-0198',
-      company: 'Company XYZ',
-      status: 'New'
+      company: 'Empresa XYZ',
+      status: 'Novo'
     },
     {
       id: '2',
@@ -68,24 +68,24 @@ export function CRMPage({ onBack }: CRMPageProps) {
       email: 'maria@tech.com',
       phone: '+1 212 555-0147',
       company: 'Tech Solutions',
-      status: 'Qualified'
+      status: 'Qualificado'
     }
   ]);
 
   const [products, setProducts] = useState<Product[]>([
     {
       id: '1',
-      name: 'ERP Software',
-      description: 'Complete enterprise management system',
+      name: 'Software ERP',
+      description: 'Sistema completo de gestão empresarial',
       price: 5999.99,
       category: 'Software'
     },
     {
       id: '2',
-      name: 'Premium Consulting',
-      description: 'Specialized process consulting',
+      name: 'Consultoria Premium',
+      description: 'Consultoria especializada em processos',
       price: 15000.00,
-      category: 'Services'
+      category: 'Serviços'
     }
   ]);
 
@@ -93,10 +93,10 @@ export function CRMPage({ onBack }: CRMPageProps) {
     name: '',
     associatedProduct: 'none',
     stages: [
-      { id: '1', name: 'Prospecting' },
-      { id: '2', name: 'Qualification' },
-      { id: '3', name: 'Proposal' },
-      { id: '4', name: 'Negotiation' },
+      { id: '1', name: 'Prospecção' },
+      { id: '2', name: 'Qualificação' },
+      { id: '3', name: 'Proposta' },
+      { id: '4', name: 'Negociação' },
       { id: '5', name: 'Fechamento' }
     ]
   });
@@ -108,7 +108,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
     email: '',
     phone: '',
     company: '',
-    status: 'New'
+    status: 'Novo'
   });
 
   const [newProduct, setNewProduct] = useState({
@@ -138,7 +138,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
       const funnel: Funnel = {
         id: Date.now().toString(),
         name: newFunnel.name,
-        createdAt: new Date().toLocaleDateString('en-US'),
+        createdAt: new Date().toLocaleDateString('pt-BR'),
         stages: newFunnel.stages,
         dealsCount: 0,
         associatedProduct: newFunnel.associatedProduct !== 'none' ? newFunnel.associatedProduct : undefined
@@ -149,10 +149,10 @@ export function CRMPage({ onBack }: CRMPageProps) {
         name: '',
         associatedProduct: 'none',
         stages: [
-          { id: '1', name: 'Prospecting' },
-          { id: '2', name: 'Qualification' },
-          { id: '3', name: 'Proposal' },
-          { id: '4', name: 'Negotiation' },
+          { id: '1', name: 'Prospecção' },
+          { id: '2', name: 'Qualificação' },
+          { id: '3', name: 'Proposta' },
+          { id: '4', name: 'Negociação' },
           { id: '5', name: 'Fechamento' }
         ]
       });
@@ -198,7 +198,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
       };
       setLeads([...leads, lead]);
       setShowLeadModal(false);
-      setNewLead({ name: '', email: '', phone: '', company: '', status: 'New' });
+      setNewLead({ name: '', email: '', phone: '', company: '', status: 'Novo' });
     }
   };
 
@@ -232,10 +232,10 @@ export function CRMPage({ onBack }: CRMPageProps) {
     <div className="min-h-screen w-full bg-[#0a0a0a]">
       <Header
         title="CRM"
-        subtitle="Customer relationship management"
+        subtitle="Gestão de relacionamento com clientes"
         onBack={onBack}
         actionButton={{
-          label: 'New Funnel',
+          label: 'Novo Funil',
           icon: Plus,
           onClick: () => setShowFunnelModal(true)
         }}
@@ -251,7 +251,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search funnels..."
+              placeholder="Buscar funis..."
               className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/20 focus:bg-white/10 transition-all"
               style={{
                 textShadow: searchTerm ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -272,7 +272,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
               }`}
             >
               <Filter className="w-4 h-4" />
-              Funnels
+              Funis
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.02 }}
@@ -298,7 +298,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
               }`}
             >
               <Package className="w-4 h-4" />
-              Products
+              Produtos
             </motion.button>
           </div>
         </div>
@@ -315,7 +315,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                 <Filter className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-white/60 text-sm">Total Funnels</p>
+                <p className="text-white/60 text-sm">Total de Funis</p>
                 <p className="text-3xl font-semibold text-white">{funnels.length}</p>
               </div>
             </div>
@@ -332,7 +332,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-white/60 text-sm">Total Leads</p>
+                <p className="text-white/60 text-sm">Total de Leads</p>
                 <p className="text-3xl font-semibold text-white">{leads.length}</p>
               </div>
             </div>
@@ -349,7 +349,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                 <Package className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-white/60 text-sm">Total Products</p>
+                <p className="text-white/60 text-sm">Total de Produtos</p>
                 <p className="text-3xl font-semibold text-white">{products.length}</p>
               </div>
             </div>
@@ -360,9 +360,9 @@ export function CRMPage({ onBack }: CRMPageProps) {
         {activeTab === 'funnels' && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-white">My Funnels ({funnels.length})</h2>
+              <h2 className="text-2xl font-semibold text-white">Meus Funis ({funnels.length})</h2>
               {funnels.length > 0 && (
-                <p className="text-white/60 text-sm">Click a funnel to view and manage your leads</p>
+                <p className="text-white/60 text-sm">Clique em um funil para ver e gerenciar seus leads</p>
               )}
             </div>
 
@@ -371,8 +371,8 @@ export function CRMPage({ onBack }: CRMPageProps) {
                 <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6">
                   <Filter className="w-10 h-10 text-white/40" />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">No funnel created yet</h3>
-                <p className="text-white/60 text-sm mb-8">Create your first sales funnel to get started</p>
+                <h3 className="text-xl font-semibold text-white mb-2">Nenhum funil criado ainda</h3>
+                <p className="text-white/60 text-sm mb-8">Crie seu primeiro funil de vendas para começar</p>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -380,7 +380,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                   className="px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-medium transition-all flex items-center gap-2 shadow-lg shadow-white/20"
                 >
                   <Plus className="w-4 h-4" />
-                  Create First Funnel
+                  Criar Primeiro Funil
                 </motion.button>
               </div>
             ) : (
@@ -422,7 +422,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                                 className="w-full px-4 py-2 text-left text-white/90 hover:bg-white/10 transition-all flex items-center gap-3"
                               >
                                 <Trash2 className="w-4 h-4 text-white" />
-                                Delete Funnel
+                                Excluir Funil
                               </button>
                             </motion.div>
                           )}
@@ -431,7 +431,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                     </div>
                     <p className="text-white/60 text-sm mb-4">Criado em {funnel.createdAt}</p>
                     <p className="text-white/60 text-sm mb-4">
-                      {funnel.stages.length} stages • {funnel.dealsCount} deals
+                      {funnel.stages.length} etapas • {funnel.dealsCount} negócios
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {funnel.stages.map((stage) => (
@@ -461,7 +461,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                 className="px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-medium transition-all flex items-center gap-2 shadow-lg shadow-white/20"
               >
                 <Plus className="w-4 h-4" />
-                New Lead
+                Novo Lead
               </motion.button>
             </div>
 
@@ -502,7 +502,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
         {activeTab === 'products' && (
           <div>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-semibold text-white">Products ({products.length})</h2>
+              <h2 className="text-2xl font-semibold text-white">Produtos ({products.length})</h2>
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -510,7 +510,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                 className="px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black font-medium transition-all flex items-center gap-2 shadow-lg shadow-white/20"
               >
                 <Plus className="w-4 h-4" />
-                New Product
+                Novo Produto
               </motion.button>
             </div>
 
@@ -537,7 +537,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                       </div>
                       <p className="text-white/60 text-sm mb-4">{product.description}</p>
                       <div className="flex items-center gap-2 text-white font-semibold text-lg">
-                        <span>${product.price.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                        <span>R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                       </div>
                     </div>
                   </div>
@@ -568,8 +568,8 @@ export function CRMPage({ onBack }: CRMPageProps) {
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h2 className="text-2xl font-semibold text-white mb-1">Create New Funnel</h2>
-                    <p className="text-white/60 text-sm">Configure the stages of your sales funnel</p>
+                    <h2 className="text-2xl font-semibold text-white mb-1">Criar Novo Funil</h2>
+                    <p className="text-white/60 text-sm">Configure as etapas do seu funil de vendas</p>
                   </div>
                   <button
                     onClick={() => setShowFunnelModal(false)}
@@ -581,12 +581,12 @@ export function CRMPage({ onBack }: CRMPageProps) {
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Funnel Name</label>
+                    <label className="block text-white text-sm font-medium mb-2">Nome do Funil</label>
                     <input
                       type="text"
                       value={newFunnel.name}
                       onChange={(e) => setNewFunnel({ ...newFunnel, name: e.target.value })}
-                      placeholder="e.g., B2B Sales, Online Sales..."
+                      placeholder="Ex: Vendas B2B, Vendas Online..."
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                       style={{
                         textShadow: newFunnel.name ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -596,13 +596,13 @@ export function CRMPage({ onBack }: CRMPageProps) {
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Associated Product (Optional)</label>
+                    <label className="block text-white text-sm font-medium mb-2">Produto Associado (Opcional)</label>
                     <select
                       value={newFunnel.associatedProduct}
                       onChange={(e) => setNewFunnel({ ...newFunnel, associatedProduct: e.target.value })}
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                     >
-                      <option value="none" className="bg-gray-900">No product</option>
+                      <option value="none" className="bg-gray-900">Sem produto</option>
                       {products.map((product) => (
                         <option key={product.id} value={product.id} className="bg-gray-900">
                           {product.name}
@@ -613,7 +613,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
 
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <label className="block text-white text-sm font-medium">Funnel Stages</label>
+                      <label className="block text-white text-sm font-medium">Etapas do Funil</label>
                       <button className="text-white/60 text-xs hover:text-white transition-all flex items-center gap-1">
                         <GripVertical className="w-3 h-3" />
                         Arraste para reordenar
@@ -649,7 +649,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                         value={newStageName}
                         onChange={(e) => setNewStageName(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleAddStage()}
-                        placeholder="New stage..."
+                        placeholder="Nova etapa..."
                         className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                         style={{
                           textShadow: newStageName ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -684,7 +684,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                     onClick={handleCreateFunnel}
                     className="flex-1 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black transition-all font-medium shadow-lg shadow-white/20"
                   >
-                    Create Funnel
+                    Criar Funil
                   </motion.button>
                 </div>
               </motion.div>
@@ -713,8 +713,8 @@ export function CRMPage({ onBack }: CRMPageProps) {
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h2 className="text-2xl font-semibold text-white mb-1">New Lead</h2>
-                    <p className="text-white/60 text-sm">Add a new lead to the CRM</p>
+                    <h2 className="text-2xl font-semibold text-white mb-1">Novo Lead</h2>
+                    <p className="text-white/60 text-sm">Adicione um novo lead ao CRM</p>
                   </div>
                   <button
                     onClick={() => setShowLeadModal(false)}
@@ -756,7 +756,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Phone</label>
+                    <label className="block text-white text-sm font-medium mb-2">Telefone</label>
                     <input
                       type="tel"
                       value={newLead.phone}
@@ -771,12 +771,12 @@ export function CRMPage({ onBack }: CRMPageProps) {
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Company</label>
+                    <label className="block text-white text-sm font-medium mb-2">Empresa</label>
                     <input
                       type="text"
                       value={newLead.company}
                       onChange={(e) => setNewLead({ ...newLead, company: e.target.value })}
-                      placeholder="Company name"
+                      placeholder="Nome da empresa"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                       style={{
                         textShadow: newLead.company ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -792,9 +792,9 @@ export function CRMPage({ onBack }: CRMPageProps) {
                       onChange={(e) => setNewLead({ ...newLead, status: e.target.value })}
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                     >
-                      <option value="New" className="bg-gray-900">New</option>
-                      <option value="Qualified" className="bg-gray-900">Qualified</option>
-                      <option value="In Negotiation" className="bg-gray-900">In Negotiation</option>
+                      <option value="Novo" className="bg-gray-900">Novo</option>
+                      <option value="Qualificado" className="bg-gray-900">Qualificado</option>
+                      <option value="Em Negociação" className="bg-gray-900">Em Negociação</option>
                       <option value="Convertido" className="bg-gray-900">Convertido</option>
                     </select>
                   </div>
@@ -815,7 +815,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                     onClick={handleCreateLead}
                     className="flex-1 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black transition-all font-medium shadow-lg shadow-white/20"
                   >
-                    Create Lead
+                    Criar Lead
                   </motion.button>
                 </div>
               </motion.div>
@@ -844,8 +844,8 @@ export function CRMPage({ onBack }: CRMPageProps) {
               >
                 <div className="flex items-start justify-between mb-6">
                   <div>
-                    <h2 className="text-2xl font-semibold text-white mb-1">New Product</h2>
-                    <p className="text-white/60 text-sm">Add a new product to the catalog</p>
+                    <h2 className="text-2xl font-semibold text-white mb-1">Novo Produto</h2>
+                    <p className="text-white/60 text-sm">Adicione um novo produto ao catálogo</p>
                   </div>
                   <button
                     onClick={() => setShowProductModal(false)}
@@ -857,12 +857,12 @@ export function CRMPage({ onBack }: CRMPageProps) {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Product Name *</label>
+                    <label className="block text-white text-sm font-medium mb-2">Nome do Produto *</label>
                     <input
                       type="text"
                       value={newProduct.name}
                       onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                      placeholder="Product name"
+                      placeholder="Nome do produto"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                       style={{
                         textShadow: newProduct.name ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -872,11 +872,11 @@ export function CRMPage({ onBack }: CRMPageProps) {
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Description</label>
+                    <label className="block text-white text-sm font-medium mb-2">Descrição</label>
                     <textarea
                       value={newProduct.description}
                       onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-                      placeholder="Product description"
+                      placeholder="Descrição do produto"
                       rows={3}
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all resize-none"
                       style={{
@@ -887,7 +887,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-medium mb-2">Price *</label>
+                    <label className="block text-white text-sm font-medium mb-2">Preço *</label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-lg">R$</span>
                       <input
@@ -918,7 +918,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                       type="text"
                       value={newProduct.category}
                       onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-                      placeholder="e.g., Software, Services..."
+                      placeholder="ex.: Software, Serviços..."
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                       style={{
                         textShadow: newProduct.category ? '0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2)' : 'none',
@@ -943,7 +943,7 @@ export function CRMPage({ onBack }: CRMPageProps) {
                     onClick={handleCreateProduct}
                     className="flex-1 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black transition-all font-medium shadow-lg shadow-white/20"
                   >
-                    Create Product
+                    Criar Produto
                   </motion.button>
                 </div>
               </motion.div>

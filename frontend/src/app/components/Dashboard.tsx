@@ -9,20 +9,20 @@ interface DashboardProps {
 }
 
 export function Dashboard({ onLogout, onNavigate }: DashboardProps) {
-  const { user } = useAuth();
+  const { hasPermission } = useAuth();
 
   const apps = [
     {
       id: 'erp',
       name: 'ERP',
-      description: 'Integrated enterprise management system',
+      description: 'Sistema integrado de gestão empresarial',
       icon: Database,
       multiIcon: false,
       requiresEmployee: true,
     },
     {
       id: 'agents',
-      name: 'Agents & Courses',
+      name: 'Agentes e Cursos',
       description: 'Assistentes inteligentes e plataforma de aprendizado',
       icon: Bot,
       secondIcon: BookOpen,
@@ -31,12 +31,7 @@ export function Dashboard({ onLogout, onNavigate }: DashboardProps) {
     },
   ];
 
-  const canAccessApp = (app: typeof apps[0]) => {
-    if (!user) return false;
-    if (app.requiresEmployee && user.type === 'client') return false;
-    if (!app.requiresEmployee && user.type === 'employee') return true;
-    return true;
-  };
+  const canAccessApp = (app: typeof apps[0]) => hasPermission(app.id);
 
   return (
     <div className="min-h-screen w-full bg-[#0a0a0a] flex flex-col items-center justify-center p-4 overflow-hidden relative">
@@ -100,7 +95,7 @@ export function Dashboard({ onLogout, onNavigate }: DashboardProps) {
           className="flex flex-col items-center mb-16"
         >
           <img src={logo} alt="Logo" className="w-20 h-20 object-contain mb-6" />
-          <p className="text-white/50 text-sm">Choose your workspace</p>
+          <p className="text-white/50 text-sm">Escolha sua área de trabalho</p>
         </motion.div>
 
         {/* Apps Grid */}

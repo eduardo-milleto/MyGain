@@ -50,66 +50,66 @@ export function CoursesPage({ onBack, onLogout, onVideoSelect }: CoursesPageProp
   const courses: Course[] = [
     {
       id: '1',
-      title: 'Trading Fundamentals',
-      description: 'Learn the basics of trading and market analysis',
-      duration: '4h 30m',
-      level: 'Beginner',
+      title: 'Fundamentos de Trading',
+      description: 'Aprenda os conceitos básicos de trading e análise de mercado',
+      duration: '4h 30min',
+      level: 'Iniciante',
       thumbnail: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=450&fit=crop',
-      category: 'Beginner',
+      category: 'Básico',
       featured: true,
     },
     {
       id: '2',
-      title: 'Advanced Technical Analysis',
-      description: 'Master indicators and chart patterns for precise decisions',
-      duration: '6h 15m',
-      level: 'Advanced',
+      title: 'Análise Técnica Avançada',
+      description: 'Domine indicadores e padrões gráficos para decisões precisas',
+      duration: '6h 15min',
+      level: 'Avançado',
       thumbnail: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=800&h=450&fit=crop',
-      category: 'Advanced',
+      category: 'Avançado',
     },
     {
       id: '3',
-      title: 'Risk Management',
-      description: 'Protect your capital with effective risk strategies',
-      duration: '3h 45m',
-      level: 'Intermediate',
+      title: 'Gestão de Risco',
+      description: 'Proteja seu capital com estratégias eficazes de gerenciamento',
+      duration: '3h 45min',
+      level: 'Intermediário',
       thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=450&fit=crop',
-      category: 'Intermediate',
+      category: 'Intermediário',
     },
     {
       id: '4',
-      title: 'Trading Psychology',
-      description: 'Emotional control and discipline for successful traders',
-      duration: '5h 00m',
-      level: 'Intermediate',
+      title: 'Psicologia do Trading',
+      description: 'Controle emocional e disciplina para traders de sucesso',
+      duration: '5h 00min',
+      level: 'Intermediário',
       thumbnail: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=450&fit=crop',
-      category: 'Intermediate',
+      category: 'Intermediário',
     },
     {
       id: '5',
-      title: 'Day Trade Strategies',
-      description: 'Advanced techniques for profitable intraday operations',
-      duration: '7h 20m',
-      level: 'Advanced',
+      title: 'Estratégias de Day Trade',
+      description: 'Técnicas avançadas para operações intraday lucrativas',
+      duration: '7h 20min',
+      level: 'Avançado',
       thumbnail: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=800&h=450&fit=crop',
-      category: 'Advanced',
+      category: 'Avançado',
     },
     {
       id: '6',
-      title: 'Crypto Markets',
-      description: 'Understand the crypto market and its opportunities',
-      duration: '4h 50m',
-      level: 'Beginner',
+      title: 'Mercado de Criptomoedas',
+      description: 'Entenda o mercado cripto e suas oportunidades',
+      duration: '4h 50min',
+      level: 'Iniciante',
       thumbnail: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=450&fit=crop',
-      category: 'Beginner',
+      category: 'Básico',
     },
   ];
 
   const featuredCourse = courses.find(c => c.featured);
   const categorizedCourses = {
-    Beginner: courses.filter(c => c.category === 'Beginner'),
-    Intermediate: courses.filter(c => c.category === 'Intermediate'),
-    Advanced: courses.filter(c => c.category === 'Advanced'),
+    'Básico': courses.filter(c => c.category === 'Básico'),
+    'Intermediário': courses.filter(c => c.category === 'Intermediário'),
+    'Avançado': courses.filter(c => c.category === 'Avançado'),
   };
 
   // Profile Creation Screen
@@ -143,8 +143,8 @@ export function CoursesPage({ onBack, onLogout, onVideoSelect }: CoursesPageProp
           transition={{ duration: 0.6 }}
           className="relative z-10 text-center max-w-lg"
         >
-          <h1 className="text-4xl font-light text-white mb-4">Who is learning?</h1>
-          <p className="text-white/50 mb-12">Create your profile to start your journey</p>
+          <h1 className="text-4xl font-light text-white mb-4">Quem está aprendendo?</h1>
+          <p className="text-white/50 mb-12">Crie seu perfil para começar sua jornada</p>
 
           <form onSubmit={handleCreateProfile} className="space-y-6">
             <div className="flex justify-center mb-8">
@@ -171,7 +171,7 @@ export function CoursesPage({ onBack, onLogout, onVideoSelect }: CoursesPageProp
               type="submit"
               className="w-full bg-white text-black rounded-2xl px-6 py-4 font-medium hover:bg-white/90 transition-all duration-300"
             >
-              Create Profile
+              Criar Perfil
             </button>
 
             <button
@@ -191,7 +191,7 @@ export function CoursesPage({ onBack, onLogout, onVideoSelect }: CoursesPageProp
   return (
     <div className="min-h-screen w-full bg-[#0a0a0a]">
       <Header
-        title="Courses"
+        title="Cursos"
         subtitle="Plataforma de aprendizado"
         onBack={onBack}
         showProfile
@@ -245,7 +245,7 @@ export function CoursesPage({ onBack, onLogout, onVideoSelect }: CoursesPageProp
                     className="flex items-center gap-3 bg-white text-black px-8 py-3 rounded-full font-semibold hover:bg-white/90 transition-all duration-300"
                   >
                     <Play className="w-5 h-5" fill="currentColor" />
-                    Start Now
+                    Começar Agora
                   </motion.button>
                 </div>
               </motion.div>

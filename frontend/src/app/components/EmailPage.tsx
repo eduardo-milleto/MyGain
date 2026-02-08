@@ -39,24 +39,24 @@ export function EmailPage({ onBack }: EmailPageProps) {
     {
       id: '1',
       sender: 'Carlos Silva',
-      senderEmail: 'carlos.silva@company.com',
-      subject: 'Q1 2026 Sales Report',
-      preview: 'Hello, attached is the full sales report...',
-      content: `Hello,
+      senderEmail: 'carlos.silva@empresa.com',
+      subject: 'Relatório de Vendas Q1 2026',
+      preview: 'Olá, segue anexo o relatório completo de vendas...',
+      content: `Olá,
 
-Attached is the full sales report for Q1 2026. Results were strong with 35% growth over the previous quarter.
+Segue anexo o relatório completo de vendas do primeiro trimestre de 2026. Os números estão muito positivos, com crescimento de 35% em relação ao trimestre anterior.
 
-Highlights:
-- Online sales: +45%
-- New customers: 1,234
-- Average ticket: $2,850
+Destaques:
+- Vendas online: +45%
+- Novos clientes: 1.234
+- Ticket médio: R$ 2.850
 
-Can we schedule a meeting to discuss next steps?
+Podemos agendar uma reunião para discutir os próximos passos?
 
-Best regards,
+Abraços,
 Carlos Silva`,
-      time: '2:32 PM',
-      date: 'Feb 01, 2026',
+      time: '14:32',
+      date: '01 Fev 2026',
       starred: true,
       hasAttachment: true,
       attachments: 2,
@@ -65,19 +65,19 @@ Carlos Silva`,
     {
       id: '2',
       sender: 'Ana Costa',
-      senderEmail: 'ana.costa@company.com',
-      subject: 'Planning Meeting - Monday',
-      preview: 'Good afternoon! Let’s schedule the planning meeting...',
-      content: `Good afternoon!
+      senderEmail: 'ana.costa@empresa.com',
+      subject: 'Reunião de planejamento - Segunda-feira',
+      preview: 'Boa tarde! Vamos marcar a reunião de planejamento...',
+      content: `Boa tarde!
 
-Let’s schedule the planning meeting for Monday at 2:00 PM. We need to discuss next quarter’s objectives and define priorities.
+Vamos marcar a reunião de planejamento para segunda-feira às 14h. Precisamos discutir os objetivos do próximo trimestre e definir as prioridades.
 
-Please confirm your attendance.
+Por favor, confirme sua presença.
 
-Sincerely,
+Atenciosamente,
 Ana Costa`,
-      time: '1:15 PM',
-      date: 'Feb 01, 2026',
+      time: '13:15',
+      date: '01 Fev 2026',
       starred: false,
       hasAttachment: false,
       folder: 'inbox'
@@ -85,16 +85,16 @@ Ana Costa`,
     {
       id: '3',
       sender: 'Roberto Mendes',
-      senderEmail: 'roberto.mendes@company.com',
-      subject: 'ERP System Update',
-      preview: 'The system will be updated next Saturday at...',
-      content: `The system will be updated next Saturday at 10:00 PM. There will be a brief service interruption for approximately 2 hours.
+      senderEmail: 'roberto.mendes@empresa.com',
+      subject: 'Atualização do Sistema ERP',
+      preview: 'O sistema será atualizado no próximo sábado às...',
+      content: `O sistema será atualizado no próximo sábado às 22h. Haverá uma breve interrupção do serviço por aproximadamente 2 horas.
 
-Please save all work before this time.
+Pedimos que salvem todo o trabalho antes deste horário.
 
-Thank you for your understanding.`,
-      time: '11:48 AM',
-      date: 'Feb 01, 2026',
+Obrigado pela compreensão.`,
+      time: '11:48',
+      date: '01 Fev 2026',
       starred: false,
       hasAttachment: false,
       folder: 'inbox'
@@ -102,16 +102,16 @@ Thank you for your understanding.`,
     {
       id: '4',
       sender: 'Juliana Santos',
-      senderEmail: 'juliana.santos@company.com',
-      subject: 'Commercial Partnership Proposal',
-      preview: 'I would like to share a partnership proposal...',
-      content: `I would like to share a commercial partnership proposal that could be very interesting for both companies.
+      senderEmail: 'juliana.santos@empresa.com',
+      subject: 'Proposta de Parceria Comercial',
+      preview: 'Gostaria de apresentar uma proposta de parceria...',
+      content: `Gostaria de apresentar uma proposta de parceria comercial que pode ser muito interessante para ambas as empresas.
 
-Can we schedule a call to discuss the details?
+Podemos agendar uma call para discutir os detalhes?
 
-Looking forward to hearing from you.`,
-      time: '10:22 AM',
-      date: 'Feb 01, 2026',
+Fico no aguardo.`,
+      time: '10:22',
+      date: '01 Fev 2026',
       starred: false,
       hasAttachment: false,
       folder: 'inbox'
@@ -119,17 +119,17 @@ Looking forward to hearing from you.`,
     {
       id: '5',
       sender: 'Pedro Oliveira',
-      senderEmail: 'pedro.oliveira@company.com',
-      subject: 'Project Phoenix Documentation',
-      preview: 'Attached is the complete project documentation...',
-      content: `Attached is the complete project documentation as requested.
+      senderEmail: 'pedro.oliveira@empresa.com',
+      subject: 'Documentação do Projeto Phoenix',
+      preview: 'Segue a documentação completa do projeto conf...',
+      content: `Segue a documentação completa do projeto conforme solicitado.
 
-If you have any questions, I am available.
+Qualquer dúvida, estou à disposição.
 
-Best,
+Att,
 Pedro`,
-      time: 'Yesterday',
-      date: 'Jan 31, 2026',
+      time: 'Ontem',
+      date: '31 Jan 2026',
       starred: true,
       hasAttachment: true,
       attachments: 1,
@@ -138,11 +138,11 @@ Pedro`,
   ]);
 
   const folders = [
-    { id: 'inbox' as const, name: 'Inbox', icon: Inbox, count: emails.filter(e => e.folder === 'inbox').length },
-    { id: 'sent' as const, name: 'Sent', icon: Send, count: 0 },
-    { id: 'drafts' as const, name: 'Drafts', icon: FileText, count: emails.filter(e => e.folder === 'drafts').length },
-    { id: 'archived' as const, name: 'Archived', icon: Archive, count: 0 },
-    { id: 'trash' as const, name: 'Trash', icon: Trash2, count: 0 }
+    { id: 'inbox' as const, name: 'Caixa de Entrada', icon: Inbox, count: emails.filter(e => e.folder === 'inbox').length },
+    { id: 'sent' as const, name: 'Enviados', icon: Send, count: 0 },
+    { id: 'drafts' as const, name: 'Rascunhos', icon: FileText, count: emails.filter(e => e.folder === 'drafts').length },
+    { id: 'archived' as const, name: 'Arquivados', icon: Archive, count: 0 },
+    { id: 'trash' as const, name: 'Lixeira', icon: Trash2, count: 0 }
   ];
 
   const filteredEmails = emails.filter(email => {
@@ -155,7 +155,7 @@ Pedro`,
 
   const handleSendEmail = () => {
     if (newEmail.to.trim() && newEmail.subject.trim() && newEmail.message.trim()) {
-      // Implement send logic here
+      // Aqui você adicionaria a lógica de envio
       setShowNewEmailModal(false);
       setNewEmail({ to: '', subject: '', message: '' });
     }
@@ -189,10 +189,10 @@ Pedro`,
       {/* Header */}
       <Header
         title="Email"
-        subtitle="Message management"
+        subtitle="Gerenciamento de mensagens"
         onBack={onBack}
         actionButton={{
-          label: 'New Email',
+          label: 'Novo Email',
           onClick: () => setShowNewEmailModal(true)
         }}
       />
@@ -202,7 +202,7 @@ Pedro`,
         {/* Sidebar - Folders */}
         <div className="w-64 bg-black border-r border-white/10 p-4">
           <div className="mb-4">
-            <p className="text-white/50 text-xs font-medium mb-3 px-3">FOLDERS</p>
+            <p className="text-white/50 text-xs font-medium mb-3 px-3">PASTAS</p>
             <div className="space-y-1">
               {folders.map((folder) => (
                 <motion.button
@@ -245,7 +245,7 @@ Pedro`,
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search emails..."
+                placeholder="Buscar emails..."
                 className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-3 py-2 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
               />
             </div>
@@ -299,7 +299,7 @@ Pedro`,
             ) : (
               <div className="flex flex-col items-center justify-center h-full py-12">
                 <Inbox className="w-16 h-16 text-white/20 mb-4" />
-                <p className="text-white/40 text-sm">No email found</p>
+                <p className="text-white/40 text-sm">Nenhum email encontrado</p>
               </div>
             )}
           </div>
@@ -387,7 +387,7 @@ Pedro`,
                     <div className="flex items-center gap-2 mb-3">
                       <Paperclip className="w-4 h-4 text-white/60" />
                       <p className="text-white/60 text-sm">
-                        Attachments ({selectedEmail.attachments})
+                        Anexos ({selectedEmail.attachments})
                       </p>
                     </div>
                     <div className="space-y-2">
@@ -414,7 +414,7 @@ Pedro`,
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white hover:bg-white/90 text-black transition-all font-medium"
                 >
                   <Reply className="w-5 h-5" />
-                  Reply
+                  Responder
                 </motion.button>
               </div>
             </div>
@@ -423,8 +423,8 @@ Pedro`,
               <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
                 <Inbox className="w-10 h-10 text-white/40" />
               </div>
-              <h3 className="text-white text-xl font-semibold mb-2">No email selected</h3>
-              <p className="text-white/60 text-sm">Select an email from the list to view</p>
+              <h3 className="text-white text-xl font-semibold mb-2">Nenhum email selecionado</h3>
+              <p className="text-white/60 text-sm">Selecione um email da lista para visualizar</p>
             </div>
           )}
         </div>
@@ -449,7 +449,7 @@ Pedro`,
                 className="bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-2xl p-6 max-w-3xl w-full shadow-2xl shadow-white/10"
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-white text-xl font-semibold">New Email</h2>
+                  <h2 className="text-white text-xl font-semibold">Novo Email</h2>
                   <button
                     onClick={() => setShowNewEmailModal(false)}
                     className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
@@ -466,7 +466,7 @@ Pedro`,
                       type="text"
                       value={newEmail.to}
                       onChange={(e) => setNewEmail({ ...newEmail, to: e.target.value })}
-                      placeholder="Search user..."
+                      placeholder="Buscar usuário..."
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                     />
                   </div>
@@ -478,7 +478,7 @@ Pedro`,
                       type="text"
                       value={newEmail.subject}
                       onChange={(e) => setNewEmail({ ...newEmail, subject: e.target.value })}
-                      placeholder="Email subject"
+                      placeholder="Assunto do email"
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                     />
                   </div>
@@ -511,11 +511,11 @@ Pedro`,
 
                   {/* Message Field */}
                   <div>
-                    <label className="block text-white/60 text-sm mb-2">Message</label>
+                    <label className="block text-white/60 text-sm mb-2">Mensagem</label>
                     <textarea
                       value={newEmail.message}
                       onChange={(e) => setNewEmail({ ...newEmail, message: e.target.value })}
-                      placeholder="Type your message here..."
+                      placeholder="Digite sua mensagem aqui..."
                       rows={10}
                       className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all resize-none"
                     />
@@ -531,7 +531,7 @@ Pedro`,
                     </button>
                     <button className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 text-white text-sm transition-all">
                       <FileText className="w-4 h-4" />
-                      Save Draft
+                      Rascunho
                     </button>
                   </div>
                   <div className="flex gap-3">
@@ -550,7 +550,7 @@ Pedro`,
                       className="px-6 py-2.5 rounded-lg bg-white hover:bg-white/90 text-black transition-all font-medium flex items-center gap-2"
                     >
                       <Send className="w-4 h-4" />
-                      Send
+                      Enviar
                     </motion.button>
                   </div>
                 </div>

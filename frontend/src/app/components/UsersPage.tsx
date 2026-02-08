@@ -17,7 +17,7 @@ interface User {
   createdAt: string;
 }
 
-const roles = ['Admin', 'Sales', 'Logistics', 'Finance', 'HR', 'Infrastructure'];
+const roles = ['Admin', 'Vendas', 'Logística', 'Financeiro', 'RH', 'Infraestrutura'];
 
 export function UsersPage({ onBack }: UsersPageProps) {
   const [users, setUsers] = useState<User[]>([
@@ -25,7 +25,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
       id: '1',
       name: 'Carlos Silva',
       email: 'carlos.silva@company.com',
-      role: 'Sales',
+      role: 'Vendas',
       status: 'online',
       createdAt: '14/01/2024'
     },
@@ -33,7 +33,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
       id: '2',
       name: 'Ana Costa',
       email: 'ana.costa@company.com',
-      role: 'HR',
+      role: 'RH',
       status: 'online',
       createdAt: '19/01/2024'
     },
@@ -41,7 +41,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
       id: '3',
       name: 'Roberto Mendes',
       email: 'roberto.mendes@company.com',
-      role: 'Infrastructure',
+      role: 'Infraestrutura',
       status: 'offline',
       createdAt: '31/01/2024'
     },
@@ -49,7 +49,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
       id: '4',
       name: 'Juliana Santos',
       email: 'juliana.santos@company.com',
-      role: 'Sales',
+      role: 'Vendas',
       status: 'online',
       createdAt: '04/02/2024'
     },
@@ -57,7 +57,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
       id: '5',
       name: 'Pedro Oliveira',
       email: 'pedro.oliveira@company.com',
-      role: 'Logistics',
+      role: 'Logística',
       status: 'online',
       createdAt: '09/02/2024'
     },
@@ -65,7 +65,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
       id: '6',
       name: 'Mariana Lima',
       email: 'mariana.lima@company.com',
-      role: 'Finance',
+      role: 'Financeiro',
       status: 'offline',
       createdAt: '11/02/2024'
     }
@@ -73,7 +73,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
 
   const [showUserModal, setShowUserModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRole, setSelectedRole] = useState('All Roles');
+  const [selectedRole, setSelectedRole] = useState('Todos os Cargos');
   const [showPassword, setShowPassword] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
@@ -129,7 +129,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = selectedRole === 'All Roles' || user.role === selectedRole;
+    const matchesRole = selectedRole === 'Todos os Cargos' || user.role === selectedRole;
     return matchesSearch && matchesRole;
   });
 
@@ -145,11 +145,11 @@ export function UsersPage({ onBack }: UsersPageProps) {
     <div className="min-h-screen w-full bg-[#0a0a0a]">
       {/* Header */}
       <Header
-        title="Users"
-        subtitle="User and permission management"
+        title="Usuários"
+        subtitle="Gestão de usuários e permissões"
         onBack={onBack}
         actionButton={{
-          label: 'New User',
+          label: 'Novo Usuário',
           icon: Plus,
           onClick: () => {
             setEditingUser(null);
@@ -173,7 +173,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                 <div className="p-2 rounded-lg bg-white/10 border border-white/20">
                   <Users className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-white/60 text-sm">Total Users</p>
+                <p className="text-white/60 text-sm">Total de Usuários</p>
               </div>
               <p className="text-3xl font-bold text-white">{users.length}</p>
             </div>
@@ -189,7 +189,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                 <div className="p-2 rounded-lg bg-white/10 border border-white/20">
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
                 </div>
-                <p className="text-white/60 text-sm">Online Now</p>
+                <p className="text-white/60 text-sm">Online Agora</p>
               </div>
               <p className="text-3xl font-bold text-white">{onlineUsers}</p>
             </div>
@@ -205,9 +205,9 @@ export function UsersPage({ onBack }: UsersPageProps) {
                 <div className="p-2 rounded-lg bg-white/10 border border-white/20">
                   <Briefcase className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-white/60 text-sm">Sales</p>
+                <p className="text-white/60 text-sm">Vendas</p>
               </div>
-              <p className="text-3xl font-bold text-white">{roleStats['Sales'] || 0}</p>
+              <p className="text-3xl font-bold text-white">{roleStats['Vendas'] || 0}</p>
             </div>
           </motion.div>
 
@@ -221,9 +221,9 @@ export function UsersPage({ onBack }: UsersPageProps) {
                 <div className="p-2 rounded-lg bg-white/10 border border-white/20">
                   <Briefcase className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-white/60 text-sm">Logistics</p>
+                <p className="text-white/60 text-sm">Logística</p>
               </div>
-              <p className="text-3xl font-bold text-white">{roleStats['Logistics'] || 0}</p>
+              <p className="text-3xl font-bold text-white">{roleStats['Logística'] || 0}</p>
             </div>
           </motion.div>
         </div>
@@ -236,7 +236,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search users..."
+              placeholder="Buscar usuários..."
               className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
             />
           </div>
@@ -245,7 +245,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
             onChange={(e) => setSelectedRole(e.target.value)}
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all cursor-pointer"
           >
-            <option value="All Roles">All Roles</option>
+            <option value="Todos os Cargos">Todos os Cargos</option>
             {roles.map(role => (
               <option key={role} value={role}>{role}</option>
             ))}
@@ -320,7 +320,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                 {/* Created Date */}
                 <div className="flex items-center gap-2 text-white/40 text-xs">
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>Created on {user.createdAt}</span>
+                  <span>Criado em {user.createdAt}</span>
                 </div>
               </div>
             </motion.div>
@@ -330,7 +330,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
         {filteredUsers.length === 0 && (
           <div className="text-center py-12">
             <Users className="w-16 h-16 text-white/20 mx-auto mb-4" />
-            <p className="text-white/40">No users found</p>
+            <p className="text-white/40">Nenhum usuário encontrado</p>
           </div>
         )}
       </div>
@@ -360,7 +360,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                     </div>
                     <div>
                       <h2 className="text-2xl font-semibold text-white">
-                        {editingUser ? 'Edit User' : 'New User'}
+                        {editingUser ? 'Editar Usuário' : 'Novo Usuário'}
                       </h2>
                     </div>
                   </div>
@@ -377,13 +377,13 @@ export function UsersPage({ onBack }: UsersPageProps) {
                   <div>
                     <div className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
                       <User className="w-4 h-4" />
-                      <span>Full Name *</span>
+                      <span>Nome Completo *</span>
                     </div>
                     <input
                       type="text"
                       value={newUser.name}
                       onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                      placeholder="e.g., John Smith"
+                      placeholder="Ex: João da Silva"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                       style={{
                         textShadow: newUser.name ? '0 0 10px rgba(255, 255, 255, 0.3)' : 'none'
@@ -395,13 +395,13 @@ export function UsersPage({ onBack }: UsersPageProps) {
                   <div>
                     <div className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
                       <Mail className="w-4 h-4" />
-                      <span>Corporate Email *</span>
+                      <span>Email Corporativo *</span>
                     </div>
                     <input
                       type="email"
                       value={newUser.email}
                       onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                      placeholder="john.smith@company.com"
+                      placeholder="joao.silva@empresa.com"
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                       style={{
                         textShadow: newUser.email ? '0 0 10px rgba(255, 255, 255, 0.3)' : 'none'
@@ -413,7 +413,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                   <div>
                     <div className="block text-white text-sm font-medium mb-3 flex items-center gap-2">
                       <Briefcase className="w-4 h-4" />
-                      <span>Role *</span>
+                      <span>Cargo *</span>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {roles.map((role) => (
@@ -451,14 +451,14 @@ export function UsersPage({ onBack }: UsersPageProps) {
                   <div>
                     <div className="block text-white text-sm font-medium mb-2 flex items-center gap-2">
                       <Lock className="w-4 h-4" />
-                      <span>Password *</span>
+                      <span>Senha *</span>
                     </div>
                     <div className="relative">
                       <input
                         type={showPassword ? 'text' : 'password'}
                         value={newUser.password}
                         onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                        placeholder="Minimum 8 characters"
+                        placeholder="Mínimo 8 caracteres"
                         className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pr-12 text-white placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                         style={{
                           textShadow: newUser.password ? '0 0 10px rgba(255, 255, 255, 0.3)' : 'none'
@@ -480,12 +480,12 @@ export function UsersPage({ onBack }: UsersPageProps) {
                       <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-xs">
                         ℹ️
                       </div>
-                      Important information:
+                      Informações importantes:
                     </div>
                     <ul className="text-white/70 text-sm space-y-1 ml-7">
-                      <li>• The email will be used to log in</li>
-                      <li>• The user will receive credentials by email</li>
-                      <li>• Permissions are defined by role</li>
+                      <li>• O email será usado para login no sistema</li>
+                      <li>• O usuário receberá as credenciais de acesso por email</li>
+                      <li>• As permissões serão definidas de acordo com o cargo</li>
                     </ul>
                   </div>
                 </div>
@@ -500,7 +500,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                     }}
                     className="flex-1 px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all font-medium"
                   >
-                    Cancel
+                    Cancelar
                   </motion.button>
                   <motion.button
                     whileHover={!isCreateDisabled ? { scale: 1.02 } : {}}
@@ -513,7 +513,7 @@ export function UsersPage({ onBack }: UsersPageProps) {
                         : 'bg-white hover:bg-white/90 text-black shadow-lg shadow-white/20'
                     }`}
                   >
-                    {editingUser ? 'Save Changes' : 'Create User'}
+                    {editingUser ? 'Salvar Alterações' : 'Criar Usuário'}
                   </motion.button>
                 </div>
               </motion.div>

@@ -52,7 +52,7 @@ export function AgentConfigPage({ onBack, profileName }: AgentConfigPageProps) {
   return (
     <div className="min-h-screen w-full bg-[#0a0a0a]">
       <Header
-        title="Configure My Agent"
+        title="Configurar Meu Agente"
         subtitle="Personalize e configure seu assistente inteligente"
         onBack={onBack}
         showProfile
@@ -70,9 +70,9 @@ export function AgentConfigPage({ onBack, profileName }: AgentConfigPageProps) {
           >
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-medium text-white mb-2">Agent Status</h2>
+                <h2 className="text-xl font-medium text-white mb-2">Status do Agente</h2>
                 <p className="text-white/50 text-sm">
-                  {isAgentActive ? 'Your agent is active and ready to respond' : 'Your agent is inactive'}
+                  {isAgentActive ? 'Seu agente está ativo e pronto para atender' : 'Seu agente está desativado'}
                 </p>
               </div>
               
@@ -112,7 +112,7 @@ export function AgentConfigPage({ onBack, profileName }: AgentConfigPageProps) {
                   ? 'text-white font-medium' 
                   : 'text-white/40'
               }`}>
-                {isAgentActive ? 'Active' : 'Inactive'}
+                {isAgentActive ? 'Ativo' : 'Inativo'}
               </span>
             </div>
           </motion.div>
@@ -126,9 +126,9 @@ export function AgentConfigPage({ onBack, profileName }: AgentConfigPageProps) {
           >
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h2 className="text-xl font-medium text-white mb-2">Active Number</h2>
+                <h2 className="text-xl font-medium text-white mb-2">Número Ativo</h2>
                 <p className="text-white/50 text-sm">
-                  Phone number linked to your agent
+                  Número de telefone vinculado ao seu agente
                 </p>
               </div>
               
@@ -151,7 +151,7 @@ export function AgentConfigPage({ onBack, profileName }: AgentConfigPageProps) {
                   <Phone className="w-6 h-6 text-white/70" />
                 </div>
                 <div>
-                  <p className="text-white/40 text-xs mb-1">Phone</p>
+                  <p className="text-white/40 text-xs mb-1">Telefone</p>
                   <p className="text-white text-lg font-medium">{phoneNumber}</p>
                 </div>
               </div>
@@ -177,7 +177,7 @@ export function AgentConfigPage({ onBack, profileName }: AgentConfigPageProps) {
                     className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-[#0a0a0a] rounded-xl font-medium hover:bg-white/90 transition-all"
                   >
                     <Check className="w-4 h-4" />
-                    Save
+                    Salvar
                   </motion.button>
                   
                   <motion.button

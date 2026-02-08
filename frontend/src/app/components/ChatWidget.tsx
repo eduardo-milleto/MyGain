@@ -28,7 +28,7 @@ export function ChatWidget() {
     {
       id: '1',
       name: 'Carlos Silva',
-      lastMessage: 'Last month’s sales report',
+      lastMessage: 'O relatório de vendas do mês passado',
       time: '14:34',
       online: true,
       unread: 2
@@ -43,7 +43,7 @@ export function ChatWidget() {
     {
       id: '3',
       name: 'Roberto Mendes',
-      lastMessage: 'Meeting confirmed for tomorrow',
+      lastMessage: 'Reunião confirmada para amanhã',
       time: '12:15',
       online: true,
       unread: 1
@@ -58,15 +58,15 @@ export function ChatWidget() {
     {
       id: '5',
       name: 'Pedro Oliveira',
-      lastMessage: 'Let’s discuss this in the next sprint',
-      time: 'Yesterday',
+      lastMessage: 'Vamos discutir isso na próxima sprint',
+      time: 'Ontem',
       online: false
     },
     {
       id: '6',
       name: 'Mariana Rodrigues',
       lastMessage: 'Enviado!',
-      time: 'Yesterday',
+      time: 'Ontem',
       online: false
     }
   ]);
@@ -74,19 +74,19 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hi, can someone help me with the report?',
+      text: 'Oi, alguém pode me ajudar com o relatório?',
       time: '14:32',
       sent: false
     },
     {
       id: '2',
-      text: 'Sure! Which report do you need?',
+      text: 'Claro! Qual relatório você precisa?',
       time: '14:33',
       sent: true
     },
     {
       id: '3',
-      text: 'Last month’s sales report',
+      text: 'O relatório de vendas do mês passado',
       time: '14:34',
       sent: false
     }
@@ -103,7 +103,7 @@ export function ChatWidget() {
       const newMessage: Message = {
         id: Date.now().toString(),
         text: messageText,
-        time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+        time: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
         sent: true
       };
       setMessages([...messages, newMessage]);
@@ -172,7 +172,7 @@ export function ChatWidget() {
                       type="text"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      placeholder="Search people..."
+                      placeholder="Buscar pessoas..."
                       className="w-full bg-white/5 border border-white/10 rounded-lg pl-10 pr-3 py-2 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                     />
                   </div>
@@ -314,7 +314,7 @@ export function ChatWidget() {
                       value={messageText}
                       onChange={(e) => setMessageText(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                      placeholder="Type your message..."
+                      placeholder="Digite sua mensagem..."
                       className="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white text-sm placeholder:text-white/40 focus:outline-none focus:border-white/40 focus:bg-white/10 transition-all"
                     />
                     <motion.button

@@ -71,7 +71,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
       id: '1',
       author: 'Ana Silva',
       avatar: 'A',
-      text: 'Excellent class! The technical analysis concepts were very well explained.',
+      text: 'Aula excelente! Os conceitos de análise técnica foram muito bem explicados.',
       likes: 24,
       liked: false,
       timestamp: '2 days ago',
@@ -80,7 +80,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
           id: '1-1',
           author: 'Carlos Mendes',
           avatar: 'C',
-          text: 'Agreed! I finally understood how to use moving averages.',
+          text: 'Concordo! Finalmente entendi como usar médias móveis.',
           likes: 5,
           liked: false,
           timestamp: '1 day ago',
@@ -92,7 +92,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
       id: '2',
       author: 'Pedro Santos',
       avatar: 'P',
-      text: 'Could you add more practical examples? It would be very helpful.',
+      text: 'Poderia adicionar mais exemplos práticos? Seria muito útil.',
       likes: 12,
       liked: false,
       timestamp: '3 days ago',
@@ -106,17 +106,17 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
 
   // Mock playlist
   const playlist: Video[] = [
-    { id: '1', title: 'Trading Introduction', duration: '12:30', thumbnail: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=170&fit=crop', watched: true },
-    { id: '2', title: 'Candlestick Analysis', duration: '18:45', thumbnail: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=170&fit=crop', watched: true },
-    { id: '3', title: 'Technical Indicators', duration: '25:15', thumbnail: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=300&h=170&fit=crop', watched: false },
-    { id: '4', title: 'Support and Resistance', duration: '22:00', thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=170&fit=crop', watched: false },
+    { id: '1', title: 'Introdução ao Trading', duration: '12:30', thumbnail: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=170&fit=crop', watched: true },
+    { id: '2', title: 'Análise de Candlestick', duration: '18:45', thumbnail: 'https://images.unsplash.com/photo-1642790106117-e829e14a795f?w=300&h=170&fit=crop', watched: true },
+    { id: '3', title: 'Indicadores Técnicos', duration: '25:15', thumbnail: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?w=300&h=170&fit=crop', watched: false },
+    { id: '4', title: 'Suporte e Resistência', duration: '22:00', thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=300&h=170&fit=crop', watched: false },
     { id: '5', title: 'Volume e Price Action', duration: '30:20', thumbnail: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=300&h=170&fit=crop', watched: false },
   ];
 
   const attachments: Attachment[] = [
-    { id: '1', name: 'Workbook - Trading Fundamentals.pdf', type: 'PDF', size: '2.5 MB', url: '#' },
-    { id: '2', name: 'Technical Analysis Spreadsheet.xlsx', type: 'XLSX', size: '1.8 MB', url: '#' },
-    { id: '3', name: 'Lesson Summary.pdf', type: 'PDF', size: '450 KB', url: '#' },
+    { id: '1', name: 'Apostila - Fundamentos de Trading.pdf', type: 'PDF', size: '2.5 MB', url: '#' },
+    { id: '2', name: 'Planilha de Análise Técnica.xlsx', type: 'XLSX', size: '1.8 MB', url: '#' },
+    { id: '3', name: 'Resumo da Aula.pdf', type: 'PDF', size: '450 KB', url: '#' },
   ];
 
   const currentVideo = playlist.find(v => v.id === videoId) || playlist[0];
@@ -352,7 +352,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                         ))}
                       </div>
                       <span className="text-white font-medium text-lg">{averageRating.toFixed(1)}</span>
-                      <span className="text-white/40 text-sm">({totalRatings} reviews)</span>
+                      <span className="text-white/40 text-sm">({totalRatings} avaliações)</span>
                     </div>
                     
                     {/* User Rating */}
@@ -411,7 +411,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                         {tab === 'about' && <Info className="w-4 h-4" />}
                         {tab === 'files' && <FileText className="w-4 h-4" />}
                         <span className="font-medium">
-                          {tab === 'comments' && 'Comments'}
+                          {tab === 'comments' && 'Comentários'}
                           {tab === 'about' && 'Sobre'}
                           {tab === 'files' && 'Arquivos'}
                         </span>
@@ -441,7 +441,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                               type="text"
                               value={newComment}
                               onChange={(e) => setNewComment(e.target.value)}
-                              placeholder="Add a comment..."
+                              placeholder="Adicione um comentário..."
                               className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white placeholder:text-white/40 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all"
                             />
                             <motion.button
@@ -451,7 +451,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                               disabled={!newComment.trim()}
                               className="px-6 py-2 bg-white text-black rounded-xl font-medium hover:bg-white/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                              Send
+                              Enviar
                             </motion.button>
                           </div>
                         </form>
@@ -514,7 +514,7 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                                         disabled={!replyText.trim()}
                                         className="px-4 py-2 bg-white/10 text-white rounded-lg text-sm hover:bg-white/20 transition-all disabled:opacity-50"
                                       >
-                                        Send
+                                        Enviar
                                       </button>
                                     </motion.div>
                                   )}
@@ -572,31 +572,31 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                         className="space-y-4"
                       >
                         <div className="space-y-3">
-                          <h3 className="text-white font-semibold">Description</h3>
+                          <h3 className="text-white font-semibold">Descrição</h3>
                           <p className="text-white/70 leading-relaxed">
-                            In this class you will learn the essential foundations of trading and technical analysis.
-                            We will cover important concepts such as candlesticks, support and resistance,
-                            and how to identify market trends.
+                            Nesta aula você vai aprender os fundamentos essenciais de trading e análise técnica.
+                            Vamos abordar conceitos importantes como candlesticks, suporte e resistência,
+                            e como identificar tendências de mercado.
                           </p>
                         </div>
                         <div className="space-y-3">
-                          <h3 className="text-white font-semibold">What you will learn</h3>
+                          <h3 className="text-white font-semibold">O que você vai aprender</h3>
                           <ul className="space-y-2 text-white/70">
                             <li className="flex items-start gap-2">
                               <Check className="w-5 h-5 text-white mt-0.5" />
-                              <span>Core concepts of technical analysis</span>
+                              <span>Conceitos centrais de análise técnica</span>
                             </li>
                             <li className="flex items-start gap-2">
                               <Check className="w-5 h-5 text-white mt-0.5" />
-                              <span>How to interpret candlestick charts</span>
+                              <span>Como interpretar gráficos de candlestick</span>
                             </li>
                             <li className="flex items-start gap-2">
                               <Check className="w-5 h-5 text-white mt-0.5" />
-                              <span>Identifying trends and patterns</span>
+                              <span>Identificar tendências e padrões</span>
                             </li>
                             <li className="flex items-start gap-2">
                               <Check className="w-5 h-5 text-white mt-0.5" />
-                              <span>Basic entry and exit strategies</span>
+                              <span>Estratégias básicas de entrada e saída</span>
                             </li>
                           </ul>
                         </div>
@@ -665,12 +665,12 @@ export function VideoPlayerPage({ onBack, videoId, courseName, profileName }: Vi
                     className="h-full bg-white rounded-full"
                   />
                 </div>
-                <p className="text-white/50 text-xs mt-2">{Math.round(progressPercentage)}% completed</p>
+                <p className="text-white/50 text-xs mt-2">{Math.round(progressPercentage)}% concluído</p>
               </div>
 
               {/* Playlist */}
               <div className="bg-white/[0.02] backdrop-blur-sm rounded-2xl border border-white/10 p-5">
-                <h3 className="text-white font-semibold mb-4">Course Lessons</h3>
+                <h3 className="text-white font-semibold mb-4">Aulas do Curso</h3>
                 <div className="space-y-2 max-h-[calc(100vh-400px)] overflow-y-auto pr-2 custom-scrollbar">
                   {playlist.map((video, index) => (
                     <motion.div

@@ -17,25 +17,25 @@ export function ERPPage({ onBack, onLogout, onNavigate }: ERPPageProps) {
     {
       id: 'crm',
       title: 'CRM',
-      description: 'Customer relationship management',
+      description: 'Gestão de relacionamento com clientes',
       icon: Database,
     },
     {
       id: 'users',
-      title: 'Users',
-      description: 'User and permission management',
+      title: 'Usuários',
+      description: 'Gestão de usuários e permissões',
       icon: Users,
     },
     {
       id: 'financial',
-      title: 'Finance',
+      title: 'Financeiro',
       description: 'Controle financeiro e fluxo de caixa',
       icon: DollarSign,
     },
     {
       id: 'email',
       title: 'Email',
-      description: 'Message management',
+      description: 'Gestão de mensagens',
       icon: Mail,
     },
   ];
@@ -133,7 +133,7 @@ export function ERPPage({ onBack, onLogout, onNavigate }: ERPPageProps) {
               <img src={logo} alt="Logo" className="w-10 h-10 object-contain" />
               <div>
                 <h1 className="text-xl font-semibold text-white">ERP</h1>
-                <p className="text-sm text-white/60">Integrated enterprise management system</p>
+                <p className="text-sm text-white/60">Sistema integrado de gestão empresarial</p>
               </div>
             </div>
             <motion.button
@@ -157,10 +157,10 @@ export function ERPPage({ onBack, onLogout, onNavigate }: ERPPageProps) {
               className="text-center mb-12"
             >
               <h2 className="text-4xl font-semibold text-white mb-3">
-                Choose a module
+                Escolha um módulo
               </h2>
               <p className="text-white/60">
-                Select the module you want to access
+                Selecione o módulo que deseja acessar
               </p>
             </motion.div>
 

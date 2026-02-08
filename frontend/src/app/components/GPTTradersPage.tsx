@@ -31,13 +31,13 @@ export function GPTTradersPage({ onBack, profileName }: GPTTradersPageProps) {
   const [chats, setChats] = useState<Chat[]>([
     {
       id: '1',
-      title: 'Market Analysis',
+      title: 'Análise de Mercado',
       messages: [],
       createdAt: new Date(Date.now() - 86400000),
     },
     {
       id: '2',
-      title: 'Trading Strategies',
+      title: 'Estratégias de Trading',
       messages: [],
       createdAt: new Date(Date.now() - 172800000),
     },
@@ -73,11 +73,11 @@ export function GPTTradersPage({ onBack, profileName }: GPTTradersPageProps) {
     
     setTimeout(() => {
       const responses = [
-        "Based on the current technical analysis, the market is showing signs of consolidation. I recommend waiting for a clear breakout before entering a position.",
-        "Fundamental indicators suggest a medium-term uptrend. Rising volume confirms institutional interest.",
-        "I identified an interesting opportunity in technology stocks. Last quarter's results exceeded expectations.",
-        "For risk management, I suggest diversifying the portfolio with 40% equities, 30% fixed income, and 30% alternative assets.",
-        "The market is volatile today due to recent economic data. Maintain your long-term strategy.",
+        "Com base na análise técnica atual, o mercado está apresentando sinais de consolidação. Recomendo aguardar um rompimento claro antes de posicionar.",
+        "Os indicadores fundamentais sugerem uma tendência de alta no médio prazo. O volume crescente confirma o interesse institucional.",
+        "Identifiquei uma oportunidade interessante em ações de tecnologia. Os resultados do último trimestre superaram as expectativas.",
+        "Para gestão de risco, sugiro diversificar a carteira com 40% em ações, 30% em renda fixa e 30% em ativos alternativos.",
+        "O mercado financeiro hoje está volátil devido aos dados econômicos recentes. Mantenha sua estratégia de longo prazo.",
       ];
       
       const randomResponse = responses[Math.floor(Math.random() * responses.length)];
@@ -257,16 +257,16 @@ export function GPTTradersPage({ onBack, profileName }: GPTTradersPageProps) {
                     Como posso ajudar?
                   </h2>
                   <p className="text-white/40 text-base mb-10 max-w-md mx-auto">
-                    I am your assistant specialized in trading and financial markets. Ask about analysis, strategies, and market trends.
+                    Sou seu assistente especializado em trading e mercado financeiro. Faça perguntas sobre análises, estratégias e tendências do mercado.
                   </p>
 
                   {/* Suggestion Cards */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-xl mx-auto">
                     {[
-                      'Analyze market trends',
-                      'Investment strategies',
-                      'Risk management',
-                      'Advanced technical analysis',
+                      'Analisar tendências do mercado',
+                      'Estratégias de investimento',
+                      'Gestão de risco',
+                      'Análise técnica avançada',
                     ].map((suggestion, idx) => (
                       <motion.button
                         key={idx}
@@ -368,7 +368,7 @@ export function GPTTradersPage({ onBack, profileName }: GPTTradersPageProps) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ask a question about trading or financial markets..."
+                  placeholder="Faça uma pergunta sobre trading ou mercado financeiro..."
                   rows={1}
                   className="w-full px-6 py-4 pr-16 bg-white/[0.03] border border-white/20 focus:border-white/40 rounded-2xl text-white placeholder-white/30 focus:outline-none transition-all resize-none shadow-lg shadow-white/5"
                   style={{
@@ -391,7 +391,7 @@ export function GPTTradersPage({ onBack, profileName }: GPTTradersPageProps) {
                 </motion.button>
               </div>
               <p className="text-white/25 text-xs text-center mt-4">
-                Traders GPT can make mistakes. Verify important information.
+                GPT dos Traders pode cometer erros. Verifique informações importantes.
               </p>
             </div>
           </div>

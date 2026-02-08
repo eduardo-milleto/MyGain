@@ -22,7 +22,7 @@ export function AgentsPage({ onBack, onLogout, onNavigate }: AgentsPageProps) {
   const apps = [
     {
       id: 'configure',
-      name: 'Configure My Agent',
+      name: 'Configurar Meu Agente',
       description: 'Personalize e configure seu assistente inteligente',
       icon: Settings,
     },
@@ -34,7 +34,7 @@ export function AgentsPage({ onBack, onLogout, onNavigate }: AgentsPageProps) {
     },
     {
       id: 'courses',
-      name: 'Courses',
+      name: 'Cursos',
       description: 'Aprenda a maximizar o uso dos agentes',
       icon: GraduationCap,
     },
@@ -43,7 +43,7 @@ export function AgentsPage({ onBack, onLogout, onNavigate }: AgentsPageProps) {
   return (
     <div className="min-h-screen w-full bg-[#0a0a0a] flex flex-col">
       <Header
-        title="Agents"
+        title="Agentes"
         subtitle="Assistentes inteligentes"
         onBack={onBack}
       />
@@ -99,7 +99,7 @@ export function AgentsPage({ onBack, onLogout, onNavigate }: AgentsPageProps) {
             className="flex flex-col items-center mb-16"
           >
             <h1 className="text-2xl font-light text-white mb-2">Bem-vindo Trader</h1>
-            <p className="text-white/50 text-sm">Choose an option to continue</p>
+            <p className="text-white/50 text-sm">Escolha uma opção para continuar</p>
           </motion.div>
 
           {/* Apps Grid */}
